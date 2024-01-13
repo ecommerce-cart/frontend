@@ -1,13 +1,9 @@
-import { useRouter } from 'next/router'
+import AppLayout from '@/layouts/App.layout'
 
 export default function Home() {
-  const router = useRouter()
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24`}
-    >
-      Hello Home Page
-      <button onClick={() => router.push('/test')}>Go Test</button>
-    </main>
+    <AppLayout>
+      <section className="m-auto">Hello from the home page</section>
+    </AppLayout>
   )
 }

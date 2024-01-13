@@ -26,6 +26,7 @@ const logoutLink = onError(({ graphQLErrors, forward, operation }) => {
     graphQLErrors?.length &&
     graphQLErrors[0].extensions?.code === 'UNAUTHENTICATED'
   ) {
+    console.log('graphQLErrors', graphQLErrors)
     return fromPromise(
       refreshAccessToken().catch((error) => {
         authenticatedVar(false)
@@ -60,4 +61,14 @@ const authLink = setContext((_, { headers }) => {
 export const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
   link: authLink.concat(logoutLink.concat(httpLink)),
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
 })

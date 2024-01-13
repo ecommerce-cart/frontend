@@ -1,0 +1,7 @@
+☐ App Structure
+    ☐ We can separate the app to (network, logic and theme)
+
+☐ Add to cart
+    ☐ quantity should depend on the latest variation
+
+☐ validate variations

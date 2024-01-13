@@ -1,6 +1,26 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+
+.nice-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* .nice-scroll .slider-scrollbar:hover .scrollbar-track {
+  height: 4px;
+} */
+
+/* .nice-scroll .scrollbar-thumb::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -10px;
+  bottom: -10px;
+} */
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -15,4 +35,3 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
