@@ -11,7 +11,7 @@ import { useCartContext } from '@/contexts/cart.context'
 import { QuantityStepper } from '../Product/QuantityStepper'
 import {
   deleteCartProductAction,
-  getCart,
+  getCartAction,
   updateCartQuantityAction,
 } from '@/network/cart.api'
 import toast from 'react-hot-toast'
@@ -27,7 +27,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
         loading: 'Creating a new order...',
         success: 'Order created successfully',
       })
-      .then(() => getCart().then(setCart))
+      .then(() => getCartAction().then(setCart))
   }
 
   const handleDeleteCartProduct = (cartProductId: number) => {
@@ -38,7 +38,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
         success: 'Cart product deleted!',
       })
       .then(() => {
-        getCart().then(setCart)
+        getCartAction().then(setCart)
       })
   }
 
@@ -53,7 +53,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
           success: 'Quantity updated',
         })
         .then(() => {
-          getCart().then(setCart)
+          getCartAction().then(setCart)
         })
     }
   }
@@ -128,15 +128,15 @@ export const UserCart = ({ close }: { close: () => void }) => {
               <tbody>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Products price</td>
-                  <td className="p-4 pl-8 text-slate-500">{cart.subTotal}</td>
+                  <td className="p-4 pl-8 text-slate-500">{cart.displayedSubtotal}</td>
                 </tr>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Shipping</td>
-                  <td className="p-4 pl-8 text-slate-500">{cart.shipping}</td>
+                  <td className="p-4 pl-8 text-slate-500">{cart.displayedShipping}</td>
                 </tr>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Total</td>
-                  <td className="p-4 pl-8 text-slate-500">{cart.total}</td>
+                  <td className="p-4 pl-8 text-slate-500">{cart.displayedTotal}</td>
                 </tr>
               </tbody>
             </table>

@@ -24,6 +24,22 @@ const REGISTER_MUTATION = gql`
   }
 `
 
+const LOGIN_MUTATION = gql`
+  mutation LoginCustomer($input: LoginCustomerInput!) {
+    loginCustomer(input: $input) {
+      id
+      email
+      name
+      accessToken
+    }
+  }
+`
+const LOGOUT_MUTATION = gql`
+  mutation LogoutCustomer {
+    logoutCustomer
+  }
+`
+
 export const ME_QUERY = gql`
   query MeCustomer {
     meCustomer {
@@ -55,6 +71,29 @@ export const register = async (inputs: RegisterFormData) => {
   }
 }
 
+export const loginAction = async (inputs: {
+  email: string
+  password: string
+}) => {
+  const { data } = await apolloClient.mutate({
+    mutation: LOGIN_MUTATION,
+    variables: {
+      input: inputs,
+    },
+  })
+
+  if (data && data.loginCustomer) {
+    globalAuth.setAccessToken(data.loginCustomer.accessToken)
+    localStorage.setItem(
+      'userData',
+      JSON.stringify({
+        email: data.loginCustomer.email,
+        name: data.loginCustomer.name,
+      })
+    )
+  }
+}
+
 export const me = async (): Promise<BasicUser | Partial<BasicUser>> => {
   const { data } = await apolloClient.query({
     query: ME_QUERY,
@@ -79,4 +118,13 @@ export const refreshAccessToken = async (): Promise<string> => {
   }
 
   throw new Error('Token refresh failed')
+}
+
+export const logoutAction = async () => {
+  await apolloClient.mutate({
+    mutation: LOGOUT_MUTATION,
+  })
+
+  localStorage.removeItem('userData')
+  globalAuth.setAccessToken('')
 }

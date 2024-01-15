@@ -1,3 +1,5 @@
+import { emptyCart } from '@/lib/cart/CartBrowser'
+import { getCartAction } from '@/network/cart.api'
 import { Cart } from '@/types/cart.types'
 import {
   Dispatch,
@@ -5,6 +7,7 @@ import {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 
@@ -20,13 +23,11 @@ export default function CartContextProvider({
 }: {
   children: ReactNode
 }) {
-  const [cart, setCart] = useState<Cart>({
-    items: [],
-    total: '0',
-    subTotal: '0',
-    shipping: 'Free',
-  })
+  const [cart, setCart] = useState<Cart>(emptyCart())
 
+  useEffect(() => {
+    getCartAction().then(setCart)
+  }, [setCart])
   return (
     <CartContext.Provider value={{ cart, setCart }}>
       {children}
@@ -36,6 +37,7 @@ export default function CartContextProvider({
 
 export function useCartContext() {
   const context = useContext(CartContext)
+
   if (!context) {
     throw new Error('useCartContext must be used within a CartContextProvider')
   }

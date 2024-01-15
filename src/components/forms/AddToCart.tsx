@@ -4,7 +4,7 @@ import toast, { Toaster } from 'react-hot-toast'
 
 import { QuantityStepper } from '@/components/app/Product/QuantityStepper'
 import { VariationTypeComponent } from '@/components/app/Product/VariationType'
-import { addToCartAction, getCart } from '@/network/cart.api'
+import { addToCartAction, getCartAction } from '@/network/cart.api'
 import { useCartContext } from '@/contexts/cart.context'
 
 type ProductVariationType = VariationType & {
@@ -63,8 +63,8 @@ export const AddToCart = ({ product }: { product: Product }) => {
     toast
       .promise(
         addToCartAction({
-          productId: product.id,
-          variations: typesState.map((t) => t.selectedVariation?.id),
+          product,
+          variations: typesState.map((t) => t.selectedVariation),
           quantity,
         }),
         {
@@ -74,7 +74,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
         }
       )
       .then(() =>
-        getCart()
+        getCartAction()
           .then((data) => setCart(data))
           .catch(console.log)
       )

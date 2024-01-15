@@ -19,6 +19,7 @@ const PRODUCT_QUERY = gql`
       id
       name
       price
+      displayedPrice
       description
       details
       images

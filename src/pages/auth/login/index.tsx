@@ -2,26 +2,22 @@ import React from 'react'
 import { useRouter } from 'next/router'
 
 import useForm from '@/hooks/use-form.hook'
-import formSchema from '@/validators/register.validator'
+import formSchema from '@/validators/login.validator'
 import { LabeledInput } from '@/components/forms/LabeledInput'
-import { RegisterFormData } from '@/types/registration'
-import { register } from '@/network/auth'
+import { loginAction } from '@/network/auth.api'
 import authenticatedVar from '@/apollo/vars/auth.vars'
 
 const initialData = {
-  name: '',
   email: '',
   password: '',
-  // passwordConfirm: '',
-  phone: '',
 }
 
-const Register = () => {
+const Login = () => {
   const router = useRouter()
 
-  const registerAction = async (values: RegisterFormData) => {
+  const handleSubmitEvent = async (values: any) => {
     try {
-      await register(values)
+      await loginAction(values)
       authenticatedVar(true)
       router.push('/')
     } catch (e) {
@@ -36,7 +32,7 @@ const Register = () => {
     handleSubmit,
     handleFocus,
     isSubmitting,
-  } = useForm(initialData, registerAction, formSchema)
+  } = useForm(initialData, handleSubmitEvent, formSchema)
 
   return (
     <main className="w-10/12 md:w-8/12 xl:w-6/12 m-auto">
@@ -44,29 +40,12 @@ const Register = () => {
         <div className="space-y-6">
           <div className="border-b border-gray-900/10 pb-2">
             <h2 className="text-base font-semibold leading-7 text-gray-900">
-              Register
+              Login
             </h2>
           </div>
 
           <div className="border-b border-gray-900/10 pb-12">
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-              <div className="sm:col-span-full">
-                <LabeledInput
-                  label="Name"
-                  error={errors.name}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.name,
-                    id: 'name',
-                    name: 'name',
-                    type: 'text',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
-              </div>
-
               <div className="sm:col-span-full">
                 <LabeledInput
                   label="Email"
@@ -78,23 +57,6 @@ const Register = () => {
                     value: values.email,
                     id: 'email',
                     name: 'email',
-                    type: 'text',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
-              </div>
-
-              <div className="sm:col-span-full">
-                <LabeledInput
-                  label="Phone"
-                  error={errors.phone}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.phone,
-                    id: 'phone',
-                    name: 'phone',
                     type: 'text',
                     additionalClasses: 'block w-full',
                   }}
@@ -117,23 +79,6 @@ const Register = () => {
                   }}
                 />
               </div>
-
-              {/* <div className="sm:col-span-full">
-                <LabeledInput
-                  label="Confirm Password"
-                  error={errors.passwordConfirm}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.passwordConfirm,
-                    id: 'passwordConfirm',
-                    name: 'passwordConfirm',
-                    type: 'password',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
-              </div> */}
             </div>
           </div>
         </div>
@@ -151,4 +96,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Login

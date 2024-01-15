@@ -3,5 +3,4 @@ export interface RegisterFormData {
   email: string
   phone: string
   password: string
-  // passwordConfirm: string
 }

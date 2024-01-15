@@ -1,5 +1,8 @@
 import { apolloClient } from '@/clients/apollo.client'
+import cartBrowser from '@/lib/cart/CartBrowser'
+import { getStorageItem } from '@/lib/json.lib'
 import { Cart } from '@/types/cart.types'
+import { Product, Variation } from '@/types/product.types'
 import { gql } from '@apollo/client'
 
 const SHOW_CART_QUERY = gql`
@@ -7,14 +10,17 @@ const SHOW_CART_QUERY = gql`
     showCart {
       items {
         id
-        price
-        displayedPrice
-        quantity
         title
+        price
+        quantity
+        displayedPrice
       }
       subTotal
       total
       shipping
+      displayedSubTotal
+      displayedTotal
+      displayedShipping
     }
   }
 `
@@ -35,7 +41,7 @@ const DELETE_CART_PRODUCT_MUTATION = gql`
   }
 `
 
-export const getCart = async (): Promise<Cart> => {
+export const getCartApi = async () => {
   try {
     const { data } = await apolloClient.query({
       query: SHOW_CART_QUERY,
@@ -45,21 +51,47 @@ export const getCart = async (): Promise<Cart> => {
       return data.showCart
     }
   } catch (e) {
-    console.log(e)
+    console.error(e)
+    throw new Error('Something went wrong!')
   }
-
-  return { items: [], shipping: 'Free', subTotal: '0', total: '0' }
 }
 
-export const addToCartAction = async (form: {
-  productId: number
-  variations: Array<number>
+export const getCartBrowser = () => {
+  let cart = getStorageItem<Cart>('userCart')
+
+  if (cart) {
+    cartBrowser.init(cart)
+  }
+
+  return cartBrowser.getCart()
+}
+
+export const getCartAction = async (): Promise<Cart> => {
+  if (getStorageItem('userData')) {
+    return getCartApi()
+  }
+
+  return getCartBrowser()
+}
+
+export type AddToCartInput = {
+  product: Product
+  variations: Array<Variation>
   quantity: number
-}) => {
+}
+export const addToCartApi = async ({
+  product,
+  variations,
+  quantity,
+}: AddToCartInput) => {
   const { data } = await apolloClient.mutate({
     mutation: ADD_TO_CART_MUTATION,
     variables: {
-      input: form,
+      input: {
+        productId: product.id,
+        quantity,
+        variations: variations.map((v) => v.id),
+      },
     },
   })
 
@@ -68,6 +100,20 @@ export const addToCartAction = async (form: {
   }
 
   return false
+}
+
+export const addToCartBrowser = (form: AddToCartInput) => {
+  cartBrowser.addItem(form.product, form.quantity, form.variations)
+}
+
+export const addToCartAction = async (form: AddToCartInput) => {
+  const userData = localStorage.getItem('userData')
+
+  if (userData) {
+    return addToCartApi(form)
+  }
+
+  return addToCartBrowser(form)
 }
 
 export const updateCartQuantityAction = async (
@@ -88,9 +134,7 @@ export const updateCartQuantityAction = async (
   return false
 }
 
-export const deleteCartProductAction = async (
-  cartProductId: number
-) => {
+export const deleteCartProductAction = async (cartProductId: number) => {
   const { data } = await apolloClient.mutate({
     mutation: DELETE_CART_PRODUCT_MUTATION,
     variables: {

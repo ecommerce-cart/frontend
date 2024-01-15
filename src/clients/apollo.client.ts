@@ -8,7 +8,7 @@ import { onError } from '@apollo/client/link/error'
 import { setContext } from '@apollo/client/link/context'
 
 import globalAuth from '@/globals/auth.global'
-import { refreshAccessToken } from '@/network/auth'
+import { refreshAccessToken } from '@/network/auth.api'
 import authenticatedVar from '@/apollo/vars/auth.vars'
 
 const httpLink = new HttpLink({

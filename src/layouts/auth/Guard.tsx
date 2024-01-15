@@ -37,13 +37,13 @@ const Guard: FC<GuardProps> = ({ children, excludedRoutes }) => {
 
   /**
    * If the user is not auth then clear the storage
-   * and go to the register page
+   * and go to the login page
    */
   useEffect(() => {
     if (!authenticated && !excludedRoutes?.includes(router.pathname)) {
       apolloClient.clearStore().catch(console.error)
       localStorage.removeItem('userData')
-      router.push('/register')
+      router.push('/auth/login')
     }
   }, [authenticated, router, excludedRoutes])
 
