@@ -116,10 +116,14 @@ export const addToCartAction = async (form: AddToCartInput) => {
   return addToCartBrowser(form)
 }
 
-export const updateCartQuantityAction = async (
-  cartProductId: number,
+export type UpdateCartQuantityInput = {
+  cartProductId: number
   quantity: number
-) => {
+}
+export const updateCartQuantityApi = async ({
+  cartProductId,
+  quantity,
+}: UpdateCartQuantityInput) => {
   const { data } = await apolloClient.mutate({
     mutation: UPDATE_CART_QUANTITY_MUTATION,
     variables: {
@@ -134,7 +138,21 @@ export const updateCartQuantityAction = async (
   return false
 }
 
-export const deleteCartProductAction = async (cartProductId: number) => {
+export const updateCartQuantityBrowser = (form: UpdateCartQuantityInput) => {
+  cartBrowser.updateCartQuantity(form.cartProductId, form.quantity)
+}
+
+export const updateCartQuantityAction = async (form: UpdateCartQuantityInput) => {
+  const userData = localStorage.getItem('userData')
+
+  if (userData) {
+    return updateCartQuantityApi(form)
+  }
+
+  return updateCartQuantityBrowser(form)
+}
+
+export const deleteCartProductApi = async(cartProductId: number) => {
   const { data } = await apolloClient.mutate({
     mutation: DELETE_CART_PRODUCT_MUTATION,
     variables: {
@@ -147,4 +165,18 @@ export const deleteCartProductAction = async (cartProductId: number) => {
   }
 
   return false
+}
+
+export const deleteCartProductBrowser = async (cartProductId: number) => {
+  cartBrowser.deleteCartProduct(cartProductId)
+}
+
+export const deleteCartProductAction = async (cartProductId: number) => {
+  const userData = localStorage.getItem('userData')
+
+  if (userData) {
+    return deleteCartProductApi(cartProductId)
+  }
+
+  return deleteCartProductBrowser(cartProductId)
 }
