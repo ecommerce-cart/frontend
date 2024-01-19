@@ -1,6 +1,7 @@
 import { Cart } from '@/types/cart.types'
 import { Product, Variation } from '@/types/product.types'
 import { getStorageItem } from '../json.lib'
+import { money } from '../money/Money'
 
 export const emptyCart = (): Cart => ({
   items: [],
@@ -34,25 +35,45 @@ export class CartBrowser {
       this.init(cart)
     }
 
+    const price = product.price * quantity
     this.cart.items.push({
-      id: product.id,
-      price: product.price,
+      id: product.id + Date.now(),
+      price,
       quantity,
-      displayedPrice: `${product.price}`,
-      title: `${product.name}`,
+      displayedPrice: money(price).egp(),
+      title: `${product.name} ${variations.map(v => ` / ${v.name}`).join(' ')}`,
     })
+    this.reCalculate()
+    this.sync()
+  }
+
+  public updateCartQuantity(cartProductId: number, quantity: number) {
+    this.cart.items.forEach((product) => {
+      if (product.id === cartProductId && quantity >= 1) {
+        product.price = (product.price / product.quantity) * quantity
+        product.quantity = quantity
+        product.displayedPrice = money(product.price).egp()
+      }
+    })
+
+    this.reCalculate()
+    this.sync()
+  }
+
+  public deleteCartProduct(cartProductId: number) {
+    this.cart.items = this.cart.items.filter((p) => p.id !== cartProductId)
     this.reCalculate()
     this.sync()
   }
 
   public reCalculate() {
     const subTotal = this.cart.items.reduce((acc: number, curr) => {
-      console.log(acc + curr.price * curr.quantity)
-      return acc + curr.price * curr.quantity
+      return acc + curr.price
     }, 0)
     this.cart.subTotal = this.cart.total = subTotal
-    this.cart.displayedSubtotal =
-      this.cart.displayedTotal = `${this.cart.subTotal}`
+    this.cart.displayedSubtotal = this.cart.displayedTotal = money(
+      this.cart.subTotal
+    ).egp()
   }
 
   getCart() {

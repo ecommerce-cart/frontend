@@ -47,7 +47,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
       handleDeleteCartProduct(cartProductId)
     } else {
       toast
-        .promise(updateCartQuantityAction(cartProductId, quantity), {
+        .promise(updateCartQuantityAction({cartProductId, quantity}), {
           error: 'Something went wrong!',
           loading: 'Updating quantity...',
           success: 'Quantity updated',
