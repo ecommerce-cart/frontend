@@ -3,16 +3,16 @@ import { useRouter } from 'next/router'
 
 import useForm from '@/hooks/use-form.hook'
 import formSchema from '@/validators/register.validator'
-import { LabeledInput } from '@/components/forms/LabeledInput'
 import { RegisterFormData } from '@/types/registration'
 import { register } from '@/network/auth.api'
 import authenticatedVar from '@/apollo/vars/auth.vars'
+import { LabeledInput } from '@/components/app/UI/forms/LabeledInput'
+import FormElement from '@/components/app/UI/forms/FormElement'
 
 const initialData = {
   name: '',
   email: '',
   password: '',
-  // passwordConfirm: '',
   phone: '',
 }
 
@@ -51,89 +51,74 @@ const Register = () => {
           <div className="border-b border-gray-900/10 pb-12">
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div className="sm:col-span-full">
-                <LabeledInput
-                  label="Name"
-                  error={errors.name}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.name,
-                    id: 'name',
-                    name: 'name',
-                    type: 'text',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
+                <LabeledInput label="Name" error={errors.name} htmlFor="name">
+                  <FormElement
+                    id="name"
+                    name="name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    value={values.name}
+                    error={errors.name}
+                  />
+                </LabeledInput>
               </div>
 
               <div className="sm:col-span-full">
                 <LabeledInput
                   label="Email"
+                  htmlFor="email"
                   error={errors.email}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.email,
-                    id: 'email',
-                    name: 'email',
-                    type: 'text',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
+                >
+                  <FormElement
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    value={values.email}
+                    id="email"
+                    name="email"
+                    error={errors.email}
+                  />
+                </LabeledInput>
               </div>
 
               <div className="sm:col-span-full">
                 <LabeledInput
                   label="Phone"
                   error={errors.phone}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.phone,
-                    id: 'phone',
-                    name: 'phone',
-                    type: 'text',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
+                  htmlFor="phone"
+                >
+                  <FormElement
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    value={values.phone}
+                    id="phone"
+                    name="phone"
+                    type="text"
+                    error={errors.phone}
+                  />
+                </LabeledInput>
               </div>
 
               <div className="sm:col-span-full">
                 <LabeledInput
                   label="Password"
                   error={errors.password}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.password,
-                    id: 'password',
-                    name: 'password',
-                    type: 'password',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
+                  htmlFor="password"
+                >
+                  <FormElement
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    value={values.password}
+                    id="password"
+                    name="password"
+                    type="password"
+                    error={errors.password}
+                  />
+                </LabeledInput>
               </div>
-
-              {/* <div className="sm:col-span-full">
-                <LabeledInput
-                  label="Confirm Password"
-                  error={errors.passwordConfirm}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.passwordConfirm,
-                    id: 'passwordConfirm',
-                    name: 'passwordConfirm',
-                    type: 'password',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
-              </div> */}
             </div>
           </div>
         </div>
