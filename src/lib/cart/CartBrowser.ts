@@ -29,6 +29,10 @@ export class CartBrowser {
     quantity: number,
     variations: Array<Variation>
   ) {
+    if (quantity <= 0) {
+      throw new Error(`Quantity Can not be ${quantity}`);
+    }
+
     const cart = getStorageItem<Cart>('userCart')
 
     if (cart) {

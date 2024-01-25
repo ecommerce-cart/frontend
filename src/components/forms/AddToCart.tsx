@@ -78,6 +78,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
           .then((data) => setCart(data))
           .catch(console.log)
       )
+      .catch(console.error);
   }
 
   return (

@@ -12,7 +12,7 @@ export const QuantityStepper = ({
   return (
     <StepperControl
       initial={initial}
-      min={0}
+      min={1}
       max={20}
       onChange={(value) => (onChange !== undefined ? onChange(value) : null)}
     >
