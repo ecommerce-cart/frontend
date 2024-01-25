@@ -128,7 +128,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
               <tbody>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Products price</td>
-                  <td className="p-4 pl-8 text-slate-500">{cart.displayedSubtotal}</td>
+                  <td className="p-4 pl-8 text-slate-500">{cart.displayedSubTotal}</td>
                 </tr>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Shipping</td>

@@ -9,7 +9,7 @@ export const emptyCart = (): Cart => ({
   subTotal: 0,
   total: 0,
   displayedShipping: 'Free',
-  displayedSubtotal: '0',
+  displayedSubTotal: '0',
   displayedTotal: '0',
 })
 
@@ -71,7 +71,7 @@ export class CartBrowser {
       return acc + curr.price
     }, 0)
     this.cart.subTotal = this.cart.total = subTotal
-    this.cart.displayedSubtotal = this.cart.displayedTotal = money(
+    this.cart.displayedSubTotal = this.cart.displayedTotal = money(
       this.cart.subTotal
     ).egp()
   }
