@@ -3,9 +3,10 @@ import { useRouter } from 'next/router'
 
 import useForm from '@/hooks/use-form.hook'
 import formSchema from '@/validators/login.validator'
-import { LabeledInput } from '@/components/forms/LabeledInput'
 import { loginAction } from '@/network/auth.api'
 import authenticatedVar from '@/apollo/vars/auth.vars'
+import { LabeledInput } from '@/components/app/UI/forms/LabeledInput'
+import FormElement from '@/components/app/UI/forms/FormElement'
 
 const initialData = {
   email: '',
@@ -50,34 +51,38 @@ const Login = () => {
                 <LabeledInput
                   label="Email"
                   error={errors.email}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.email,
-                    id: 'email',
-                    name: 'email',
-                    type: 'text',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
+                  htmlFor="email"
+                >
+                  <FormElement
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    value={values.email}
+                    id="email"
+                    name="email"
+                    type="email"
+                    error={errors.email}
+                  />
+                </LabeledInput>
               </div>
 
               <div className="sm:col-span-full">
                 <LabeledInput
                   label="Password"
                   error={errors.password}
-                  inputProps={{
-                    onChange: handleChange,
-                    onBlur: handleBlur,
-                    onFocus: handleFocus,
-                    value: values.password,
-                    id: 'password',
-                    name: 'password',
-                    type: 'password',
-                    additionalClasses: 'block w-full',
-                  }}
-                />
+                  htmlFor="password"
+                >
+                  <FormElement
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    onFocus={handleFocus}
+                    value={values.password}
+                    id="password"
+                    name="password"
+                    type="password"
+                    error={errors.password}
+                  />
+                </LabeledInput>
               </div>
             </div>
           </div>
