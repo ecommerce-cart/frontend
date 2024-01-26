@@ -8,7 +8,7 @@ export type CartItem = {
 
 export type Cart = {
   items: Array<CartItem>
-  displayedSubtotal: string
+  displayedSubTotal: string
   subTotal: number
   shipping: number
   displayedShipping: string
