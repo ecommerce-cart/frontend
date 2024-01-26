@@ -39,7 +39,7 @@ export const Stepper: FC<StepperProps> = ({
 
   const decrement = () => {
     if (min !== undefined && counter <= min) {
-      setActualValue(0)
+      setActualValue(min)
     } else {
       setActualValue(counter - 1)
     }
