@@ -15,20 +15,10 @@ import {
   updateCartQuantityAction,
 } from '@/network/cart.api'
 import toast from 'react-hot-toast'
-import { createOrderAction } from '@/network/order.api'
+import Link from 'next/link'
 
 export const UserCart = ({ close }: { close: () => void }) => {
   const { cart, setCart } = useCartContext()
-
-  const handleCreateOrder = () => {
-    toast
-      .promise(createOrderAction(), {
-        error: 'Something went wrong!',
-        loading: 'Creating a new order...',
-        success: 'Order created successfully',
-      })
-      .then(() => getCartAction().then(setCart))
-  }
 
   const handleDeleteCartProduct = (cartProductId: number) => {
     toast
@@ -47,7 +37,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
       handleDeleteCartProduct(cartProductId)
     } else {
       toast
-        .promise(updateCartQuantityAction({cartProductId, quantity}), {
+        .promise(updateCartQuantityAction({ cartProductId, quantity }), {
           error: 'Something went wrong!',
           loading: 'Updating quantity...',
           success: 'Quantity updated',
@@ -128,29 +118,34 @@ export const UserCart = ({ close }: { close: () => void }) => {
               <tbody>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Products price</td>
-                  <td className="p-4 pl-8 text-slate-500">{cart.displayedSubTotal}</td>
+                  <td className="p-4 pl-8 text-slate-500">
+                    {cart.displayedSubTotal}
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Shipping</td>
-                  <td className="p-4 pl-8 text-slate-500">{cart.displayedShipping}</td>
+                  <td className="p-4 pl-8 text-slate-500">
+                    {cart.displayedShipping}
+                  </td>
                 </tr>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Total</td>
-                  <td className="p-4 pl-8 text-slate-500">{cart.displayedTotal}</td>
+                  <td className="p-4 pl-8 text-slate-500">
+                    {cart.displayedTotal}
+                  </td>
                 </tr>
               </tbody>
             </table>
-            <button
-              type="button"
-              className="flex ml-8 mt-4 px-12 rounded py-4 bg-indigo-600 text-white hover:bg-indigo-500"
-              onClick={handleCreateOrder}
+            <Link
+              href={'/checkout'}
+              className="flex w-fit ml-8 mt-4 px-8 rounded py-4 bg-indigo-600 text-white hover:bg-indigo-500"
             >
               Checkout
               <ArrowRightIcon
                 className="ml-2 w-6 h-6"
                 aria-hidden="true"
               ></ArrowRightIcon>{' '}
-            </button>
+            </Link>
           </>
         )}
       </motion.div>

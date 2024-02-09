@@ -363,6 +363,7 @@ function useForm<Data extends Record<string, unknown>>(
     handleFocus,
     handleSubmit,
     isSubmitting,
+    setValues
   }
 }
 
