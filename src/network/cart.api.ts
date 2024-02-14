@@ -6,7 +6,7 @@ import { Product, Variation } from '@/types/product.types'
 import { gql } from '@apollo/client'
 
 const SHOW_CART_QUERY = gql`
-  query cart {
+  query ShowCart {
     showCart {
       items {
         id
@@ -25,18 +25,18 @@ const SHOW_CART_QUERY = gql`
   }
 `
 const ADD_TO_CART_MUTATION = gql`
-  mutation cart($input: AddToCartInput!) {
+  mutation AddToCart($input: AddToCartInput!) {
     addToCart(input: $input)
   }
 `
 const UPDATE_CART_QUANTITY_MUTATION = gql`
-  mutation updateCartQuantity($input: UpdateCartQuantityInput!) {
+  mutation UpdateCartQuantity($input: UpdateCartQuantityInput!) {
     updateCartQuantity(input: $input)
   }
 `
 
 const DELETE_CART_PRODUCT_MUTATION = gql`
-  mutation deleteCartProduct($input: DeleteCartProductInput!) {
+  mutation DeleteCartProduct($input: DeleteCartProductInput!) {
     deleteCartProduct(input: $input)
   }
 `
