@@ -5,7 +5,7 @@ import { gql } from '@apollo/client'
 import { useEffect, useState } from 'react'
 
 const CITIES_QUERY = gql`
-  query cities {
+  query Cities {
     cities {
       id
       name
@@ -13,7 +13,7 @@ const CITIES_QUERY = gql`
   }
 `
 const ADDRESSES_QUERY = gql`
-  query addresses {
+  query Addresses {
     addresses {
       id
       state
