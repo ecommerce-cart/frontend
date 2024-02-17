@@ -1,5 +1,5 @@
 import { Product, Variation, VariationType } from '@/types/product.types'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 
 import { QuantityStepper } from '@/components/app/Product/QuantityStepper'
@@ -12,16 +12,38 @@ type ProductVariationType = VariationType & {
 }
 
 export const AddToCart = ({ product }: { product: Product }) => {
-  const [typesState, setTypesState] = useState<Array<ProductVariationType>>(
-    product.variationTypes.map((t) => ({
-      ...t,
-      selectedVariation: t.variations[0],
-    }))
-  )
+  const [typesState, setTypesState] = useState<Array<ProductVariationType>>([])
 
   const [quantity, setQuantity] = useState(1)
 
   const { setCart } = useCartContext()
+
+  /**
+   * Select the first variation of the children of each type (first render only)
+   */
+  useEffect(() => {
+    const newTypeStates: Array<ProductVariationType> = []
+
+    product.variationTypes.forEach((variationType, index) => {
+      const previousType = newTypeStates[index - 1]
+
+      /**
+       * getting only the variations that is feasible on the screen
+       * if they are the first level with no parent then we expect to see them all in the screen
+       * also if there parent is selected then we expect to see them
+       */
+      const childVariations = variationType.variations.filter(
+        variation => !variation.parentId || previousType?.selectedVariation?.id === variation.parentId
+      )
+
+      /**
+       * Select the first variation of the children (for this type)
+       */
+      newTypeStates.push({ ...variationType, selectedVariation: childVariations[0] })
+    })
+
+    setTypesState(newTypeStates)
+  }, [product])
 
   const changeSelectedVariation = (
     variation: Variation,
@@ -50,7 +72,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
         }
       })
 
-      return [...newTypes]
+      return newTypes
     })
   }
 
@@ -78,13 +100,13 @@ export const AddToCart = ({ product }: { product: Product }) => {
           .then((data) => setCart(data))
           .catch(console.log)
       )
-      .catch(console.error);
+      .catch(console.error)
   }
 
   return (
     <form className="mt-10" onSubmit={(e) => e.preventDefault()}>
       <Toaster />
-      {/* Sizes */}
+      
       {typesState.map((t, index) => {
         const previousType = typesState[index - 1]
         const childVariations = t.variations.filter(
@@ -102,10 +124,12 @@ export const AddToCart = ({ product }: { product: Product }) => {
           </div>
         )
       })}
+
       <div className="mt-10">
         <h3 className="mb-4 text-sm font-medium text-gray-900">quantity</h3>
         <QuantityStepper initial={quantity} onChange={handleQuantityChange} />
       </div>
+
       <button
         onClick={addToCart}
         type="submit"
