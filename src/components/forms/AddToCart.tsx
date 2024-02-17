@@ -24,7 +24,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
   useEffect(() => {
     const newTypeStates: Array<ProductVariationType> = []
 
-    product.variationTypes.forEach((t, index) => {
+    product.variationTypes.forEach((variationType, index) => {
       const previousType = newTypeStates[index - 1]
 
       /**
@@ -32,14 +32,14 @@ export const AddToCart = ({ product }: { product: Product }) => {
        * if they are the first level with no parent then we expect to see them all in the screen
        * also if there parent is selected then we expect to see them
        */
-      const childVariations = t.variations.filter(
-        (v) => !v.parentId || previousType?.selectedVariation?.id === v.parentId
+      const childVariations = variationType.variations.filter(
+        variation => !variation.parentId || previousType?.selectedVariation?.id === variation.parentId
       )
 
       /**
        * Select the first variation of the children (for this type)
        */
-      newTypeStates.push({ ...t, selectedVariation: childVariations[0] })
+      newTypeStates.push({ ...variationType, selectedVariation: childVariations[0] })
     })
 
     setTypesState(newTypeStates)
