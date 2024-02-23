@@ -4,6 +4,7 @@ import globalAuth from '@/globals/auth.global'
 import { RegisterFormData } from '@/types/registration'
 import { BasicUser } from '@/types/user'
 import { apolloClient } from '@/clients/apollo.client'
+import { LoginFormData } from '@/types/login'
 
 const REFRESH_TOKEN_MUTATION = gql`
   mutation RefreshToken {
@@ -71,10 +72,7 @@ export const register = async (inputs: RegisterFormData) => {
   }
 }
 
-export const loginAction = async (inputs: {
-  email: string
-  password: string
-}) => {
+export const loginAction = async (inputs: LoginFormData) => {
   const { data } = await apolloClient.mutate({
     mutation: LOGIN_MUTATION,
     variables: {

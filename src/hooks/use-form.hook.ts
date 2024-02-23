@@ -1,8 +1,5 @@
 // import { Dispatch, SetStateAction, useState } from 'react'
 
-import { useState } from 'react'
-import { AnySchema, ValidationError, object } from 'yup'
-
 // // export const setInForm =
 // //   <T, U extends keyof T>(setForm: Dispatch<SetStateAction<T>>) =>
 // //   (key: U, value: T[U]) =>
@@ -238,6 +235,9 @@ import { AnySchema, ValidationError, object } from 'yup'
 
 // export default useForm
 
+import { Dispatch, SetStateAction, useState } from 'react'
+import { AnySchema, ValidationError, object } from 'yup'
+
 type InputTypes = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
 
 const getInputValue = (input: EventTarget & HTMLInputElement) => {
@@ -254,6 +254,11 @@ const getInputValue = (input: EventTarget & HTMLInputElement) => {
 type TouchedInputs<Data> = Partial<Record<keyof Data, boolean>>
 type Errors<Data> = Partial<Record<keyof Data, string>>
 type YupValidationObject<Data> = Record<keyof Data, AnySchema>
+
+export type SubmitHandler<Data> = (
+  values: Data,
+  setErrors: Dispatch<SetStateAction<Partial<Record<keyof Data, string>>>>
+) => Promise<void>
 
 const validate = async <Data>(
   data: Data,
@@ -289,7 +294,7 @@ const isValidationError = (error: any): error is ValidationError => {
 
 function useForm<Data extends Record<string, unknown>>(
   data: Data,
-  submitHandler: (values: Data) => Promise<void>,
+  submitHandler: SubmitHandler<Data>,
   validationSchema?: YupValidationObject<Data>
 ) {
   const [values, setValues] = useState<Data>(data)
@@ -310,12 +315,10 @@ function useForm<Data extends Record<string, unknown>>(
 
   const handleBlur = (e: React.FocusEvent<InputTypes>) => {
     let newTouched = { ...touched }
-
     if (!touched[e.currentTarget.name]) {
       newTouched = { ...touched, [e.currentTarget.name]: true }
       setTouched(newTouched)
     }
-
     if (validationSchema) {
       validate(values, validationSchema)
         .then(() => setErrors({}))
@@ -344,7 +347,7 @@ function useForm<Data extends Record<string, unknown>>(
     if (validationSchema) {
       try {
         await validate(values, validationSchema)
-        await submitHandler(values)
+        await submitHandler(values, setErrors)
         setIsSubmitting(false)
       } catch (error) {
         if (isValidationError(error)) {
@@ -363,7 +366,7 @@ function useForm<Data extends Record<string, unknown>>(
     handleFocus,
     handleSubmit,
     isSubmitting,
-    setValues
+    setValues,
   }
 }
 
