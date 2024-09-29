@@ -34,6 +34,9 @@ const PRODUCT_QUERY = gql`
           typeId
           typeName
           parentId
+          children {
+            id
+          }
         }
       }
     }

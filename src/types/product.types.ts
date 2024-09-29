@@ -7,6 +7,7 @@ export type Variation = {
   typeId: number
   typeName: number
   parentId?: number
+  children?: Array<Partial<Variation>>
 }
 
 export type VariationType = {
