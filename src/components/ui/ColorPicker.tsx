@@ -1,10 +1,12 @@
 import { RadioGroup } from '@headlessui/react'
-import React, { useState } from 'react'
+import { XMarkIcon } from '@heroicons/react/20/solid'
+import React, { Fragment } from 'react'
 
 type ColorPickerProps<T> = {
   colors: Array<T>
   onColorChange?: (color: T) => void
   selectedColor?: T | null
+  disabled?: (color: T) => boolean
   getKey: (color: T) => number | string
   colorName: (color: T) => string
 }
@@ -18,6 +20,7 @@ export const ColorPicker = <T,>({
   getKey,
   onColorChange,
   colorName,
+  disabled,
   selectedColor,
 }: ColorPickerProps<T>) => {
   return (
@@ -26,26 +29,35 @@ export const ColorPicker = <T,>({
       <div className="flex items-center space-x-3">
         {colors.map((color) => (
           <RadioGroup.Option
+            disabled={disabled ? disabled(color) : false}
             key={getKey(color)}
             value={color}
             style={{ background: colorName(color) }}
-            className={({ checked }) =>
+            className={({ checked, disabled }) =>
               classNames(
                 'ring-gray-400',
                 checked ? 'ring ring-offset-1' : '',
+                disabled ? 'cursor-not-allowed' : '',
                 'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none'
               )
             }
           >
-            <RadioGroup.Label as="span" className="sr-only">
-              {colorName(color)}
-            </RadioGroup.Label>
-            <span
-              aria-hidden="true"
-              className={
-                'h-8 w-8 rounded-full border border-black border-opacity-10'
-              }
-            />
+            {({ disabled }) => (
+              <Fragment>
+                <RadioGroup.Label as="span" className="sr-only">
+                  {colorName(color)}
+                </RadioGroup.Label>
+                <span
+                  aria-hidden="true"
+                  className={
+                    'flex justify-center items-center h-8 w-8 rounded-full border border-black border-opacity-10 text-white'
+                  }
+                >
+                  {disabled ? <XMarkIcon className="h-5 w-5" /> : null}
+                </span>
+              </Fragment>
+
+            )}
           </RadioGroup.Option>
         ))}
       </div>

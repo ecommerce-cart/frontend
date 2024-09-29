@@ -39,6 +39,7 @@ export const VariationTypeComponent = ({
           <ColorPicker
             getKey={(variation) => variation.id}
             colorName={(variation) => variation.value!}
+            disabled={variation => variation.children?.length === 0}
             selectedColor={selectedVariation}
             onColorChange={(value) => onChangeVariation(value, variationType)}
             colors={variations}
