@@ -1,4 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { RadioGroup } from '@headlessui/react'
+import { twMerge } from 'tailwind-merge'
+import { string } from 'yup'
+import { CheckCircleIcon } from '@heroicons/react/20/solid'
 
 import AppLayout from '@/layouts/App.layout'
 import { CartDetails } from '@/components/app/Checkout/CartDetails'
@@ -6,14 +10,12 @@ import { ShippingAddressesList } from '@/components/app/Checkout/ShippingAddress
 import { Address } from '@/types/address.types'
 import { useAddresses } from '@/network/address.api'
 import { CreateShippingAddressModal } from '@/components/app/Checkout/CreateShippingAddressModal'
-import { RadioGroup } from '@headlessui/react'
-import { twMerge } from 'tailwind-merge'
-import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import { LabeledInput } from '@/components/app/UI/forms/LabeledInput'
 import FormElement from '@/components/app/UI/forms/FormElement'
 import useForm from '@/hooks/use-form.hook'
-import { string } from 'yup'
 import { useUser } from '@/hooks/use-user'
+import { CartGuard } from '@/hoc/CartGuard'
+
 
 const orderCustomerSchema = {
   email: string().required().email(),
@@ -32,7 +34,7 @@ const Checkout = () => {
         email: user ? user.email : '',
         name: user ? user.name : '',
       },
-      async (v) => {},
+      async (v) => { },
       orderCustomerSchema
     )
 
@@ -62,7 +64,7 @@ const Checkout = () => {
 
   return (
     <AppLayout>
-      <>
+      <CartGuard>
         <div className="block py-10 lg:flex bg-gray-50 rounded-md shadow-md">
           <div className="w-full lg:w-2/3">
             <div className="px-10">
@@ -152,17 +154,15 @@ const Checkout = () => {
                               <div className="text-sm">
                                 <RadioGroup.Label
                                   as="p"
-                                  className={`font-medium  ${
-                                    checked ? 'text-white' : 'text-gray-900'
-                                  }`}
+                                  className={`font-medium  ${checked ? 'text-white' : 'text-gray-900'
+                                    }`}
                                 >
                                   <span>Cash on delivery</span>
                                 </RadioGroup.Label>
                                 <RadioGroup.Description
                                   as="span"
-                                  className={`inline ${
-                                    checked ? 'text-sky-100' : 'text-gray-500'
-                                  }`}
+                                  className={`inline ${checked ? 'text-sky-100' : 'text-gray-500'
+                                    }`}
                                 ></RadioGroup.Description>
                               </div>
                             </div>
@@ -201,7 +201,7 @@ const Checkout = () => {
             </div>
           </div>
         </div>
-      </>
+      </CartGuard>
     </AppLayout>
   )
 }

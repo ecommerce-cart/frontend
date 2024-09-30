@@ -1,6 +1,6 @@
 import { emptyCart } from '@/lib/cart/CartBrowser'
 import { getCartAction } from '@/network/cart.api'
-import { Cart } from '@/types/cart.types'
+import { CartState } from '@/types/cart.types'
 import {
   Dispatch,
   ReactNode,
@@ -12,8 +12,8 @@ import {
 } from 'react'
 
 type CartContextType = {
-  cart: Cart
-  setCart: Dispatch<SetStateAction<Cart>>
+  cart: CartState
+  setCart: Dispatch<SetStateAction<CartState>>
 }
 
 export const CartContext = createContext<CartContextType | null>(null)
@@ -23,10 +23,10 @@ export default function CartContextProvider({
 }: {
   children: ReactNode
 }) {
-  const [cart, setCart] = useState<Cart>(emptyCart())
+  const [cart, setCart] = useState<CartState>({ ...emptyCart(), isReady: false })
 
   useEffect(() => {
-    getCartAction().then(setCart)
+    getCartAction().then(cart => ({ ...cart, isReady: true })).then(setCart)
   }, [setCart])
   return (
     <CartContext.Provider value={{ cart, setCart }}>

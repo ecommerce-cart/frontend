@@ -15,3 +15,5 @@ export type Cart = {
   total: number
   displayedTotal: string
 }
+
+export type CartState = Cart & { isReady: boolean }
