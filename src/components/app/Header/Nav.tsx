@@ -6,22 +6,23 @@ import {
   XMarkIcon,
 } from '@heroicons/react/20/solid'
 import Image from 'next/image'
-import Link from 'next/link'
+import { AnimatePresence } from 'framer-motion'
+import { useRouter } from 'next/router'
 
 import { UserCart } from '@/components/app/Cart/UserCart'
-import { AnimatePresence } from 'framer-motion'
 import { useBodyOverlay } from '@/hooks/use-body-overlay.hook'
 import { useCartContext } from '@/contexts/cart.context'
 import { MobileNav } from '@/components/app/Header/MobileNav'
-import { useRouter } from 'next/router'
 import { useUser } from '@/hooks/use-user'
 import { ProfileDropdown } from '@/components/app/Header/ProfileDropdown'
 import { logoutAction } from '@/network/auth.api'
+import { NavItem } from '@/components/app/Header/NavItem'
+import { AuthNavItem } from '@/components/app/Header/AuthNavItem'
 
 const navigation = [
-  { name: 'Home', href: '/' },
-  { name: 'Products', href: '/products' },
-  { name: 'Orders', href: '/orders' },
+  { name: 'Home', href: '/', requireAuth: false },
+  { name: 'Products', href: '/products', requireAuth: false },
+  { name: 'Orders', href: '/orders', requireAuth: true },
 ]
 const userNavigation = [
   { name: 'Your Profile', href: '#' },
@@ -29,9 +30,6 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ]
 
-function classNames(...classes: Array<string>) {
-  return classes.filter(Boolean).join(' ')
-}
 
 export const Nav = () => {
   const [isUserCartOpen, setIsUserCartOpen] = useState(false)
@@ -71,23 +69,7 @@ export const Nav = () => {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
-                      {navigation.map((item) => (
-                        <Link
-                          key={item.name}
-                          href={item.href}
-                          className={classNames(
-                            item.href === router.pathname
-                              ? 'bg-gray-900 text-white'
-                              : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'rounded-md px-3 py-2 text-sm font-medium'
-                          )}
-                          aria-current={
-                            item.href === router.pathname ? 'page' : undefined
-                          }
-                        >
-                          {item.name}
-                        </Link>
-                      ))}
+                      {navigation.map((item) => <NavItem key={item.name} item={item} user={user} currentPath={router.pathname}></NavItem>)}
                     </div>
                   </div>
                 </div>
@@ -113,12 +95,17 @@ export const Nav = () => {
                       </div>
                     </button>
 
+                    <div className='h-3 border border-gray-400 ml-2'></div>
+
+
                     {user ? (
                       <ProfileDropdown
                         user={user}
                         handleLogout={handleLogout}
                       />
                     ) : null}
+
+                    {!user ? <AuthNavItem currentPath={router.pathname} /> : null}
                   </div>
                 </div>
                 <div className="-mr-2 flex md:hidden">
