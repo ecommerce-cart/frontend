@@ -7,10 +7,8 @@ import { Product } from '@/types/product.types'
 import { Gallery } from '@/components/ui/Gallery'
 import { getProduct } from '@/network/product.api'
 import { AddToCart } from '@/components/forms/AddToCart'
+import { classNames } from '@/lib/general.lib'
 
-function classNames(...classes: Array<string>) {
-  return classes.filter(Boolean).join(' ')
-}
 // const details =
 //   'The 6-Pack includes two black, two white, and two heather gray Basic Tees. Sign up for our subscription service and be the first to get new, exciting colors, like our upcoming "Charcoal Gray" limited release.'
 const highlights = [
@@ -45,7 +43,7 @@ export default function ProductPage({ product }: { product: Product }) {
           </nav>
 
           {/* Image gallery */}
-          <Gallery images={product.images} classNames="" />
+          <Gallery images={product.images} />
 
           {/* Product info */}
           <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">

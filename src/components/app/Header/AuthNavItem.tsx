@@ -1,8 +1,5 @@
 import Link from "next/link"
-
-function classNames(...classes: Array<string>) {
-    return classes.filter(Boolean).join(' ')
-}
+import { classNames } from "@/lib/general.lib"
 
 export const AuthNavItem = ({ currentPath }: { currentPath: string }) => {
     let redirectTo = currentPath === '/auth/login' ? { to: '/auth/register', text: 'Register' } : { to: '/auth/login', text: 'Login' }

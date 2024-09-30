@@ -1,14 +1,13 @@
 import Image from 'next/image'
-import React, { Fragment, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 import { NiceScroll } from './NiceScroll'
 
 interface GalleryProps {
-  classNames?: string
   images: Array<string>
 }
 
-export const Gallery = ({ images, classNames }: GalleryProps) => {
+export const Gallery = ({ images }: GalleryProps) => {
   const [canSlideLeft, setCanSlideLeft] = useState(false)
   const [canSlideRight, setCanSlideRight] = useState(true)
 

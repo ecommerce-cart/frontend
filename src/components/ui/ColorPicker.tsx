@@ -2,6 +2,8 @@ import { RadioGroup } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/20/solid'
 import React, { Fragment } from 'react'
 
+import { classNames } from '@/lib/general.lib'
+
 type ColorPickerProps<T> = {
   colors: Array<T>
   onColorChange?: (color: T) => void
@@ -9,10 +11,6 @@ type ColorPickerProps<T> = {
   disabled?: (color: T) => boolean
   getKey: (color: T) => number | string
   colorName: (color: T) => string
-}
-
-function classNames(...classes: Array<string>) {
-  return classes.filter(Boolean).join(' ')
 }
 
 export const ColorPicker = <T,>({

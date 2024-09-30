@@ -1,12 +1,10 @@
-import { BasicUser } from '@/types/user'
+import React from 'react'
+import Image from 'next/image'
 import { Disclosure } from '@headlessui/react'
 import { BellIcon } from '@heroicons/react/20/solid'
-import Image from 'next/image'
-import React from 'react'
 
-function classNames(...classes: Array<string>) {
-  return classes.filter(Boolean).join(' ')
-}
+import { BasicUser } from '@/types/user'
+import { classNames } from '@/lib/general.lib'
 
 export const MobileNav = ({
   navigation,

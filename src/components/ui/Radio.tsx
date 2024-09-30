@@ -1,18 +1,16 @@
 import { RadioGroup } from '@headlessui/react'
 import React from 'react'
 
+import { classNames } from '@/lib/general.lib'
+
 type RadioProps<T> = {
   label: string
   selectedOption?: T | null
   options: Array<T>
-  optionName: (option: T) => string 
+  optionName: (option: T) => string
   keyExtractor: (option: T) => number | string
   disabled: (option: T) => boolean
   onChange?: (value: T) => void
-}
-
-function classNames(...classes: Array<string>) {
-  return classes.filter(Boolean).join(' ')
 }
 
 export const Radio = <T,>({

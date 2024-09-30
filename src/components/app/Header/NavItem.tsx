@@ -1,10 +1,8 @@
+import { classNames } from "@/lib/general.lib"
 import { BasicUser } from "@/types/user"
 import Link from "next/link"
 import { FC } from "react"
 
-function classNames(...classes: Array<string>) {
-    return classes.filter(Boolean).join(' ')
-}
 
 interface NavItemProps {
     item: {
