@@ -97,7 +97,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
       )
       .then(() =>
         getCartAction()
-          .then((data) => setCart(data))
+          .then((data) => setCart({ ...data, isReady: true }))
           .catch(console.log)
       )
       .catch(console.error)
@@ -106,7 +106,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
   return (
     <form className="mt-10" onSubmit={(e) => e.preventDefault()}>
       <Toaster />
-      
+
       {typesState.map((t, index) => {
         const previousType = typesState[index - 1]
         const childVariations = t.variations.filter(

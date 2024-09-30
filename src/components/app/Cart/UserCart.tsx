@@ -28,7 +28,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
         success: 'Cart product deleted!',
       })
       .then(() => {
-        getCartAction().then(setCart)
+        getCartAction().then(cart => ({ ...cart, isReady: true })).then(setCart)
       })
   }
 
@@ -43,7 +43,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
           success: 'Quantity updated',
         })
         .then(() => {
-          getCartAction().then(setCart)
+          getCartAction().then(cart => ({ ...cart, isReady: true })).then(setCart)
         })
     }
   }
