@@ -9,9 +9,9 @@ import { apolloClient } from '@/clients/apollo.client'
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={apolloClient}>
-      {/* <Guard excludedRoutes={['/register', '/', '/product']}> */}
-      <Component {...pageProps} />
-      {/* </Guard> */}
+      <Guard excludedRoutes={['/auth/login', 'auth/register', '/', '/products', '/products/[id]', 'orders']}>
+        <Component {...pageProps} />
+      </Guard>
     </ApolloProvider>
   )
 }
