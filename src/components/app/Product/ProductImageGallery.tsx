@@ -9,12 +9,17 @@ export const ProductImageGallery = ({ images }: { images: string[] }) => {
 
     const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
         if (zoomedImageRef.current && mainImageRef.current) {
-            const { left, top, width, height } = e.currentTarget.getBoundingClientRect();
-            const x = ((e.pageX - left) / width) * 100;
-            const y = ((e.pageY - top) / height) * 100;
+            const { left, top } = e.currentTarget.getBoundingClientRect();
+            let x = ((e.pageX - left));
+            let y = ((e.pageY - top));
+
+            // fix if there is a scroll
+            x = x - window.scrollX
+            y = y - window.scrollY
+
             mainImageRef.current.style.display = 'none'
             zoomedImageRef.current.style.display = 'block'
-            zoomedImageRef.current.style.backgroundPosition = `${x}% ${y}%`
+            zoomedImageRef.current.style.backgroundPosition = `-${x}px -${y}px`
         }
     }
 
@@ -28,16 +33,17 @@ export const ProductImageGallery = ({ images }: { images: string[] }) => {
 
     return (
         <div className="w-1/2 flex flex-col">
-            <div className="w-full border">
+            <div className="w-full">
                 <div
-                    className='w-3/4 m-auto relative pt-[100%] h-0 overflow-hidden cursor-zoom-in'
+                    className='w-[450px] h-[500px] m-auto relative overflow-hidden cursor-zoom-in'
                     onMouseMove={handleMouseMove}
                     onMouseLeave={handleMouseLeave}>
                     <Image
+                        width={450}
+                        height={500}
                         ref={mainImageRef}
                         src={images[currentImage]}
                         alt={"FIXME: product name"}
-                        fill
                         sizes="100%"
                         priority
                         className="object-center object-contain absolute inset-0"
@@ -50,8 +56,7 @@ export const ProductImageGallery = ({ images }: { images: string[] }) => {
                             display: 'none',
                             backgroundPosition: 'center',
                             backgroundImage: `url(${images[currentImage]})`,
-                            backgroundSize: '170%', // Increase or decrease based on desired zoom
-                            transition: 'background-position 0.1s ease-out'
+                            backgroundSize: '200%', // Increase or decrease based on desired zoom
                         }}
                     />
                 </div>

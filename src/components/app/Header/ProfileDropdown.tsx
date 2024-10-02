@@ -43,7 +43,7 @@ export const ProfileDropdown = ({
             <Menu.Item>
               <div className="border-b block px-4 py-2 text-sm text-gray-700">
                 {/* FIXME: */}
-                Hello Taha Mohamed
+                {user?.name}
               </div>
             </Menu.Item>
 
