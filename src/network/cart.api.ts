@@ -1,7 +1,7 @@
 import { apolloClient } from '@/clients/apollo.client'
 import cartBrowser from '@/lib/cart/CartBrowser'
 import { getStorageItem } from '@/lib/json.lib'
-import { Cart } from '@/types/cart.types'
+import { CartState } from '@/types/cart.types'
 import { Product, Variation } from '@/types/product.types'
 import { gql } from '@apollo/client'
 
@@ -57,7 +57,7 @@ export const getCartApi = async () => {
 }
 
 export const getCartBrowser = () => {
-  let cart = getStorageItem<Cart>('userCart')
+  let cart = getStorageItem<CartState>('userCart')
 
   if (cart) {
     cartBrowser.init(cart)
@@ -66,7 +66,7 @@ export const getCartBrowser = () => {
   return cartBrowser.getCart()
 }
 
-export const getCartAction = async (): Promise<Cart> => {
+export const getCartAction = async (): Promise<CartState> => {
   if (getStorageItem('userData')) {
     return getCartApi()
   }
