@@ -6,7 +6,7 @@ import formSchema from '@/validators/address.validator'
 import { LabeledInput } from '@/components/app/UI/forms/LabeledInput'
 import { createAddressAction, useCities } from '@/network/address.api'
 
-export type CheckoutFormData = {
+export type ShippingAddressFormData = {
   country?: string | null
   address?: string
   city?: string
@@ -14,7 +14,7 @@ export type CheckoutFormData = {
   zipCode?: string
 }
 
-const initData: CheckoutFormData = {
+const initData: ShippingAddressFormData = {
   country: '1',
   address: '',
   city: '',
@@ -28,7 +28,7 @@ export const CreateShippingAddress = ({
 }) => {
   const { cities } = useCities()
 
-  const submitHandler = async (values: CheckoutFormData) => {
+  const submitHandler = async (values: ShippingAddressFormData) => {
     createAddressAction(values).then(onCreate)
   }
 

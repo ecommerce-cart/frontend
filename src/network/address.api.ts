@@ -1,5 +1,6 @@
 import { apolloClient } from '@/clients/apollo.client'
-import { CheckoutFormData } from '@/components/app/Checkout/CreateShippingAddress'
+import { ShippingAddressFormData } from '@/components/app/Checkout/CreateShippingAddress'
+import { getStorageItem } from '@/lib/json.lib'
 import { Address, City } from '@/types/address.types'
 import { gql } from '@apollo/client'
 import { useEffect, useState } from 'react'
@@ -53,6 +54,10 @@ export const getCities = async (): Promise<Array<City>> => {
 }
 
 export const getAddresses = async (): Promise<Array<Address>> => {
+  return JSON.parse(localStorage.getItem("addresses") || "[]")
+}
+
+export const getAddressesApi = async (): Promise<Array<Address>> => {
   try {
     const { data } = await apolloClient.query({
       query: ADDRESSES_QUERY,
@@ -84,6 +89,9 @@ export const useAddresses = () => {
   const [addresses, setAddresses] = useState<Array<Address>>([])
 
   const reload = () => {
+    if(getStorageItem('userData')){
+      getAddressesApi().then(setAddresses).catch(console.error)
+    }
     getAddresses().then(setAddresses).catch(console.error)
   }
 
@@ -98,7 +106,14 @@ export const useAddresses = () => {
   }
 }
 
-export const createAddressAction = async (values: CheckoutFormData) => {
+export const createAddress = async (values: ShippingAddressFormData) => {
+  const addresses = JSON.parse(localStorage.getItem("addresses") || "[]")
+  addresses.push(values)
+  localStorage.setItem("addresses", JSON.stringify(addresses))
+  return true
+};
+
+export const createAddressApi = async (values: ShippingAddressFormData) => {
   const { data } = await apolloClient.mutate({
     mutation: CREATE_ADDRESS_MUTATION,
     variables: {
@@ -110,5 +125,12 @@ export const createAddressAction = async (values: CheckoutFormData) => {
     return true
   }
 
-  throw new Error('Something went wrong')
-}
+  throw new Error("Something went wrong")
+};
+
+export const createAddressAction = async (values: ShippingAddressFormData) => {
+  if (getStorageItem("userData")) {
+    return createAddressApi(values)
+  }
+  return createAddress(values)
+};
