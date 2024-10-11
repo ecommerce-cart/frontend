@@ -1,9 +1,9 @@
-import { CartState } from '@/types/cart.types'
+import { Cart } from '@/types/cart.types'
 import { Product, Variation } from '@/types/product.types'
 import { getStorageItem } from '../json.lib'
 import { money } from '../money/Money'
 
-export const emptyCart = (): CartState => ({
+export const emptyCart = (): Cart => ({
   items: [],
   shipping: 0,
   subTotal: 0,
@@ -11,17 +11,16 @@ export const emptyCart = (): CartState => ({
   displayedShipping: 'Free',
   displayedSubTotal: '0',
   displayedTotal: '0',
-  isReady: false
 })
 
 export class CartBrowser {
-  private cart: CartState
+  private cart: Cart
 
   constructor() {
     this.cart = emptyCart()
   }
 
-  public init(cart: CartState) {
+  public init(cart: Cart) {
     this.cart = cart
   }
 
@@ -34,7 +33,7 @@ export class CartBrowser {
       throw new Error(`Quantity Can not be ${quantity}`);
     }
 
-    const cart = getStorageItem<CartState>('userCart')
+    const cart = getStorageItem<Cart>('userCart')
 
     if (cart) {
       this.init(cart)
@@ -82,7 +81,7 @@ export class CartBrowser {
   }
 
   getCart() {
-    const cart = getStorageItem<CartState>('userCart')
+    const cart = getStorageItem<Cart>('userCart')
 
     if (cart) {
       this.init(cart)
@@ -91,7 +90,7 @@ export class CartBrowser {
     return this.cart
   }
   sync() {
-    localStorage.setItem('userCart', JSON.stringify({...this.cart, isReady: true}))
+    localStorage.setItem('userCart', JSON.stringify(this.cart))
   }
 }
 
