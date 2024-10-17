@@ -8,18 +8,10 @@ export default function Home() {
       <table className="shadow-lg border-collapse table-auto w-full text-sm">
         <thead>
           <tr>
-            <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">
-              #
-            </th>
-            <th className="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">
-              Status
-            </th>
-            <th className="border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">
-              Created at
-            </th>
-            <th className="border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">
-              Last update
-            </th>
+            <th className="border-b font-medium p-4 pl-8 pt-0 pb-3 text-slate-400 text-left">#</th>
+            <th className="border-b font-medium p-4 pt-0 pb-3 text-slate-400 text-left">Status</th>
+            <th className="border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">Created at</th>
+            <th className="border-b font-medium p-4 pr-8 pt-0 pb-3 text-slate-400 text-left">Last update</th>
           </tr>
         </thead>
         <tbody className="bg-white dark:bg-slate-800">

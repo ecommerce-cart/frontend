@@ -11,18 +11,12 @@ export const NiceScroll = ({ children, containerRef }: NiceScrollProps) => {
 
   useEffect(() => {
     const updateScrollThumbPosition = () => {
-      if (
-        containerRef.current &&
-        sliderScrollbar.current &&
-        scrollBarThumb.current
-      ) {
+      if (containerRef.current && sliderScrollbar.current && scrollBarThumb.current) {
         const imageContainer = containerRef.current
-        const maxScrollLeft =
-          imageContainer.scrollWidth - imageContainer.clientWidth
+        const maxScrollLeft = imageContainer.scrollWidth - imageContainer.clientWidth
         const newThumbPosition =
           (imageContainer.scrollLeft / maxScrollLeft) *
-          (sliderScrollbar.current.clientWidth -
-            scrollBarThumb.current.offsetWidth)
+          (sliderScrollbar.current.clientWidth - scrollBarThumb.current.offsetWidth)
 
         scrollBarThumb.current.style.left = `${newThumbPosition}px`
       }
@@ -33,24 +27,17 @@ export const NiceScroll = ({ children, containerRef }: NiceScrollProps) => {
     }
   }, [containerRef])
 
-  const handleGrabbingThumb = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ) => {
+  const handleGrabbingThumb = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const startX = e.clientX
     console.log('clientX', e.clientX)
     const thumbPosition = e.currentTarget.offsetLeft
     console.log('thumbPosition', thumbPosition)
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (
-        scrollBarThumb.current &&
-        sliderScrollbar.current &&
-        containerRef.current
-      ) {
+      if (scrollBarThumb.current && sliderScrollbar.current && containerRef.current) {
         console.log('containerClientWidth', containerRef.current.clientWidth)
         console.log('containerScrollWidth', containerRef.current.scrollWidth)
-        const maxScrollLeft =
-          containerRef.current.scrollWidth - containerRef.current.clientWidth
+        const maxScrollLeft = containerRef.current.scrollWidth - containerRef.current.clientWidth
 
         console.log('containerMaxScrollLeft', maxScrollLeft)
 
@@ -59,27 +46,14 @@ export const NiceScroll = ({ children, containerRef }: NiceScrollProps) => {
 
         const newThumbPosition = thumbPosition + deltaX
 
-        console.log(
-          'sliderScrollbarClientWidth',
-          sliderScrollbar.current.offsetWidth
-        )
-        console.log(
-          'thumbWidth',
-          scrollBarThumb.current.offsetWidth,
-          scrollBarThumb.current.clientWidth
-        )
+        console.log('sliderScrollbarClientWidth', sliderScrollbar.current.offsetWidth)
+        console.log('thumbWidth', scrollBarThumb.current.offsetWidth, scrollBarThumb.current.clientWidth)
 
-        const maxThumbPosition =
-          sliderScrollbar.current.clientWidth -
-          scrollBarThumb.current.clientWidth
+        const maxThumbPosition = sliderScrollbar.current.clientWidth - scrollBarThumb.current.clientWidth
 
-        const boundedPosition = Math.max(
-          0,
-          Math.min(maxThumbPosition, newThumbPosition)
-        )
+        const boundedPosition = Math.max(0, Math.min(maxThumbPosition, newThumbPosition))
 
-        const scrollPosition =
-          (boundedPosition / maxThumbPosition) * maxScrollLeft
+        const scrollPosition = (boundedPosition / maxThumbPosition) * maxScrollLeft
         containerRef.current.scrollLeft = scrollPosition
 
         scrollBarThumb.current.style.left = `${boundedPosition}px`
@@ -99,10 +73,7 @@ export const NiceScroll = ({ children, containerRef }: NiceScrollProps) => {
     <div className="nice-scroll relative">
       {children}
 
-      <div
-        className="slider-scrollbar h-6 w-full flex items-center"
-        ref={sliderScrollbar}
-      >
+      <div className="slider-scrollbar h-6 w-full flex items-center" ref={sliderScrollbar}>
         <div className="scrollbar-track h-1 w-full bg-gray-400 relative rounded">
           <div
             className="scrollbar-thumb absolute h-full w-1/2 bg-black rounded cursor-grab active:h-2 active:cursor-grabbing active:-top-[2px]"

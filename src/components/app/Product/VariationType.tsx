@@ -13,10 +13,7 @@ export const VariationTypeComponent = ({
 }: {
   variationType: ProductVariationType
   variations: Variation[]
-  onChangeVariation: (
-    variation: Variation,
-    variationType: ProductVariationType
-  ) => void
+  onChangeVariation: (variation: Variation, variationType: ProductVariationType) => void
 }) => {
   const { id, name, component, selectedVariation } = variationType
 
@@ -39,7 +36,7 @@ export const VariationTypeComponent = ({
           <ColorPicker
             getKey={(variation) => variation.id}
             colorName={(variation) => variation.value!}
-            disabled={variation => variation.children?.length === 0}
+            disabled={(variation) => variation.children?.length === 0}
             selectedColor={selectedVariation}
             onColorChange={(value) => onChangeVariation(value, variationType)}
             colors={variations}

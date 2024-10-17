@@ -25,7 +25,7 @@ export const ShippingAddressesList = ({
               twMerge(
                 'ring-2 ring-gray-200 relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none',
                 active ? 'ring-indigo-600' : '',
-                checked ? 'bg-indigo-600 text-white' : 'bg-white'
+                checked ? 'bg-indigo-600 text-white' : 'bg-white',
               )
             }
           >
@@ -34,23 +34,15 @@ export const ShippingAddressesList = ({
                 <div className="flex w-full items-center justify-between">
                   <div className="flex items-center">
                     <div className="text-sm">
-                      <RadioGroup.Label
-                        as="p"
-                        className={`font-medium  ${
-                          checked ? 'text-white' : 'text-gray-900'
-                        }`}
-                      >
+                      <RadioGroup.Label as="p" className={`font-medium  ${checked ? 'text-white' : 'text-gray-900'}`}>
                         <span>
-                          {address.country.name} / {address.city.name} /{' '}
-                          {address.state}
+                          {address.country.name} / {address.city.name} / {address.state}
                         </span>
                         <span className="block">{address.street1}</span>
                       </RadioGroup.Label>
                       <RadioGroup.Description
                         as="span"
-                        className={`inline ${
-                          checked ? 'text-sky-100' : 'text-gray-500'
-                        }`}
+                        className={`inline ${checked ? 'text-sky-100' : 'text-gray-500'}`}
                       ></RadioGroup.Description>
                     </div>
                   </div>

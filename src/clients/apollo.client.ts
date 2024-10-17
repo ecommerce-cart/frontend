@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  fromPromise,
-} from '@apollo/client'
+import { ApolloClient, HttpLink, InMemoryCache, fromPromise } from '@apollo/client'
 import { onError } from '@apollo/client/link/error'
 import { setContext } from '@apollo/client/link/context'
 
@@ -22,16 +17,13 @@ const httpLink = new HttpLink({
  * from the server then try to refresh the token
  */
 const logoutLink = onError(({ graphQLErrors, forward, operation }) => {
-  if (
-    graphQLErrors?.length &&
-    graphQLErrors[0].extensions?.code === 'UNAUTHENTICATED'
-  ) {
+  if (graphQLErrors?.length && graphQLErrors[0].extensions?.code === 'UNAUTHENTICATED') {
     console.log('graphQLErrors', graphQLErrors)
     return fromPromise(
       refreshAccessToken().catch((error) => {
         authenticatedVar(false)
         return
-      })
+      }),
     )
       .filter((value) => Boolean(value))
       .flatMap((accessToken) => {

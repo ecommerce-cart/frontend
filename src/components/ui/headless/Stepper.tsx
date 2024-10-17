@@ -13,13 +13,7 @@ export type StepperProps = {
   }) => ReactNode
 }
 
-export const Stepper: FC<StepperProps> = ({
-  initial = 1,
-  children,
-  onChange,
-  min,
-  max,
-}) => {
+export const Stepper: FC<StepperProps> = ({ initial = 1, children, onChange, min, max }) => {
   const [counter, setCounter] = useState(initial)
 
   const setActualValue = (value: number) => {
@@ -46,12 +40,7 @@ export const Stepper: FC<StepperProps> = ({
   }
 
   const setValue = (value: number) => {
-    if (
-      min !== undefined &&
-      max !== undefined &&
-      value <= max &&
-      value >= min
-    ) {
+    if (min !== undefined && max !== undefined && value <= max && value >= min) {
       setActualValue(value)
     } else {
       setActualValue(counter)

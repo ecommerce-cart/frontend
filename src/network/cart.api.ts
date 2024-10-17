@@ -1,6 +1,6 @@
 import { apolloClient } from '@/clients/apollo.client'
 import cartBrowser from '@/lib/cart/CartBrowser'
-import { getStorageItem } from '@/lib/json.lib'
+import { getAndParseStorageItem } from '@/lib/json.lib'
 import { Cart } from '@/types/cart.types'
 import { Product, Variation } from '@/types/product.types'
 import { gql } from '@apollo/client'
@@ -52,12 +52,12 @@ export const getCartApi = async () => {
     }
   } catch (e) {
     console.error(e)
-    throw new Error('Something went wrong!')
+    // throw new Error('Something went wrong!')
   }
 }
 
 export const getCartBrowser = () => {
-  let cart = getStorageItem<Cart>('userCart')
+  let cart = getAndParseStorageItem<Cart>('userCart')
 
   if (cart) {
     cartBrowser.init(cart)
@@ -67,7 +67,8 @@ export const getCartBrowser = () => {
 }
 
 export const getCartAction = async (): Promise<Cart> => {
-  if (getStorageItem('userData')) {
+  //Fixme: This is not secure if the user added data to the local storage
+  if (getAndParseStorageItem('userData')) {
     return getCartApi()
   }
 
@@ -79,11 +80,7 @@ export type AddToCartInput = {
   variations: Array<Variation>
   quantity: number
 }
-export const addToCartApi = async ({
-  product,
-  variations,
-  quantity,
-}: AddToCartInput) => {
+export const addToCartApi = async ({ product, variations, quantity }: AddToCartInput) => {
   const { data } = await apolloClient.mutate({
     mutation: ADD_TO_CART_MUTATION,
     variables: {
@@ -120,10 +117,7 @@ export type UpdateCartQuantityInput = {
   cartProductId: number
   quantity: number
 }
-export const updateCartQuantityApi = async ({
-  cartProductId,
-  quantity,
-}: UpdateCartQuantityInput) => {
+export const updateCartQuantityApi = async ({ cartProductId, quantity }: UpdateCartQuantityInput) => {
   const { data } = await apolloClient.mutate({
     mutation: UPDATE_CART_QUANTITY_MUTATION,
     variables: {
@@ -152,7 +146,7 @@ export const updateCartQuantityAction = async (form: UpdateCartQuantityInput) =>
   return updateCartQuantityBrowser(form)
 }
 
-export const deleteCartProductApi = async(cartProductId: number) => {
+export const deleteCartProductApi = async (cartProductId: number) => {
   const { data } = await apolloClient.mutate({
     mutation: DELETE_CART_PRODUCT_MUTATION,
     variables: {

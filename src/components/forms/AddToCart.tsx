@@ -33,7 +33,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
        * also if there parent is selected then we expect to see them
        */
       const childVariations = variationType.variations.filter(
-        variation => !variation.parentId || previousType?.selectedVariation?.id === variation.parentId
+        (variation) => !variation.parentId || previousType?.selectedVariation?.id === variation.parentId,
       )
 
       /**
@@ -45,10 +45,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
     setTypesState(newTypeStates)
   }, [product])
 
-  const changeSelectedVariation = (
-    variation: Variation,
-    type: ProductVariationType
-  ) => {
+  const changeSelectedVariation = (variation: Variation, type: ProductVariationType) => {
     setTypesState((oldTypes) => {
       const newTypes = [...oldTypes]
       const updatedTypeIndex = oldTypes.findIndex((t) => t.id === type.id)
@@ -66,7 +63,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
           newTypes[index] = {
             ...t,
             selectedVariation: t.variations.find(
-              (v) => v.parentId === newTypes[index - 1].selectedVariation?.id
+              (v) => v.parentId === newTypes[index - 1].selectedVariation?.id,
             ) as Variation,
           }
         }
@@ -93,12 +90,12 @@ export const AddToCart = ({ product }: { product: Product }) => {
           error: 'Something went wrong!',
           loading: 'Adding to cart...',
           success: 'Added to cart',
-        }
+        },
       )
       .then(() =>
         getCartAction()
           .then((data) => setCart({ ...data, isReady: true }))
-          .catch(console.log)
+          .catch(console.log),
       )
       .catch(console.error)
   }
@@ -110,8 +107,7 @@ export const AddToCart = ({ product }: { product: Product }) => {
       {typesState.map((t, index) => {
         const previousType = typesState[index - 1]
         const childVariations = t.variations.filter(
-          (v) =>
-            !v.parentId || previousType?.selectedVariation?.id === v.parentId
+          (v) => !v.parentId || previousType?.selectedVariation?.id === v.parentId,
         )
         return (
           <div key={t.id} className={`mt-10`}>

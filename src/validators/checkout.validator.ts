@@ -1,7 +1,7 @@
 import { string } from 'yup'
 
 const formSchema = {
-  address: string().required()
+  address: string().required(),
 }
 
 export default formSchema

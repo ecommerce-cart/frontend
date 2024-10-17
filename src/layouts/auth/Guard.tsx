@@ -1,18 +1,10 @@
-import { FC, useEffect } from 'react'
+import { FC, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useReactiveVar } from '@apollo/client'
 
 import authenticatedVar from '@/apollo/vars/auth.vars'
-import { BasicUser } from '@/types/user'
 import { apolloClient } from '@/clients/apollo.client'
-
-const getUser = (): BasicUser | null => {
-  try {
-    return JSON.parse(localStorage.getItem('userData') || '')
-  } catch (e) {
-    return null
-  }
-}
+import globalAuth from '@/globals/auth.global'
 
 interface GuardProps {
   children: JSX.Element
@@ -20,34 +12,30 @@ interface GuardProps {
 }
 
 const Guard: FC<GuardProps> = ({ children, excludedRoutes }) => {
+  console.log('Guard rendered')
   const router = useRouter()
-
   const authenticated = useReactiveVar(authenticatedVar)
 
-  /**
-   * See if we have a user in the localStorage
-   * if we do have a user then we are authenticated
-   */
-  useEffect(() => {
-    if (!excludedRoutes?.includes(router.pathname)) {
-      let user = getUser()
-      authenticatedVar(!!user)
-    }
-  }, [router.pathname, excludedRoutes])
+  const logOut = useCallback(() => {
+    apolloClient.clearStore().catch(console.error)
+    localStorage?.removeItem('userData')
+    router.push('/auth/login')
+  }, [router])
 
   /**
-   * If the user is not auth then clear the storage
-   * and go to the login page
+   * We have to use useEffect to inform that this a client component
+   * and the logout functionality should be executed in the client side
    */
   useEffect(() => {
-    if (!authenticated && !excludedRoutes?.includes(router.pathname)) {
-      apolloClient.clearStore().catch(console.error)
-      localStorage.removeItem('userData')
-      router.push('/auth/login')
+    if (
+      !authenticated || // by default this is false until we change it's value in the next server side
+      (!excludedRoutes?.includes(router.pathname) && !globalAuth.accessToken) // this is to protect the routes in the client side
+    ) {
+      logOut()
     }
-  }, [authenticated, router, excludedRoutes])
+  }, [router.pathname, authenticated, excludedRoutes, logOut])
 
-  return <>{children}</>
+  return children
 }
 
 export default Guard

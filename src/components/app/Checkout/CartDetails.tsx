@@ -6,9 +6,7 @@ export const CartDetails = () => {
   const { cart } = useCartContext()
   return (
     <div className=" border-gray-900/10 pb-12 px-10">
-      <h2 className="text-base font-semibold leading-7 text-gray-900">
-        Cart details
-      </h2>
+      <h2 className="text-base font-semibold leading-7 text-gray-900">Cart details</h2>
 
       <div className="mt-8">
         {cart.items.map((cartItem) => (

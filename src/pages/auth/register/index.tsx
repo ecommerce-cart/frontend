@@ -29,15 +29,11 @@ const Register = () => {
       console.error(e)
     }
   }
-  const {
-    values,
-    errors,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    handleFocus,
-    isSubmitting,
-  } = useForm(initialData, registerAction, formSchema)
+  const { values, errors, handleBlur, handleChange, handleSubmit, handleFocus, isSubmitting } = useForm(
+    initialData,
+    registerAction,
+    formSchema,
+  )
 
   return (
     <AppLayout>
@@ -45,9 +41,7 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="border px-10 py-6 m-6 rounded">
           <div className="space-y-6">
             <div className="border-b border-gray-900/10 pb-2">
-              <h2 className="text-base font-semibold leading-7 text-gray-900">
-                Register
-              </h2>
+              <h2 className="text-base font-semibold leading-7 text-gray-900">Register</h2>
             </div>
 
             <div className="border-b border-gray-900/10 pb-12">
@@ -67,11 +61,7 @@ const Register = () => {
                 </div>
 
                 <div className="sm:col-span-full">
-                  <LabeledInput
-                    label="Email"
-                    htmlFor="email"
-                    error={errors.email}
-                  >
+                  <LabeledInput label="Email" htmlFor="email" error={errors.email}>
                     <FormElement
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -85,11 +75,7 @@ const Register = () => {
                 </div>
 
                 <div className="sm:col-span-full">
-                  <LabeledInput
-                    label="Phone"
-                    error={errors.phone}
-                    htmlFor="phone"
-                  >
+                  <LabeledInput label="Phone" error={errors.phone} htmlFor="phone">
                     <FormElement
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -104,11 +90,7 @@ const Register = () => {
                 </div>
 
                 <div className="sm:col-span-full">
-                  <LabeledInput
-                    label="Password"
-                    error={errors.password}
-                    htmlFor="password"
-                  >
+                  <LabeledInput label="Password" error={errors.password} htmlFor="password">
                     <FormElement
                       onChange={handleChange}
                       onBlur={handleBlur}

@@ -257,35 +257,26 @@ type YupValidationObject<Data> = Record<keyof Data, AnySchema>
 
 export type SubmitHandler<Data> = (
   values: Data,
-  setErrors: Dispatch<SetStateAction<Partial<Record<keyof Data, string>>>>
+  setErrors: Dispatch<SetStateAction<Partial<Record<keyof Data, string>>>>,
 ) => Promise<void>
 
-const validate = async <Data>(
-  data: Data,
-  schemaObject: YupValidationObject<Data>
-) => {
+const validate = async <Data>(data: Data, schemaObject: YupValidationObject<Data>) => {
   const schema = object(schemaObject)
   await schema.validate(data, { abortEarly: false })
 }
 
-const structureYupError = <Data>(
-  errors: ValidationError,
-  touchedInputs?: TouchedInputs<Data>
-) => {
-  return errors.inner.reduce(
-    (structuredError: Errors<Data>, error: ValidationError) => {
-      const path = error.path as keyof Data | undefined
+const structureYupError = <Data>(errors: ValidationError, touchedInputs?: TouchedInputs<Data>) => {
+  return errors.inner.reduce((structuredError: Errors<Data>, error: ValidationError) => {
+    const path = error.path as keyof Data | undefined
 
-      if (touchedInputs) {
-        if (path && touchedInputs[path]) structuredError[path] = error.message
-      } else {
-        if (path) structuredError[path] = error.message
-      }
+    if (touchedInputs) {
+      if (path && touchedInputs[path]) structuredError[path] = error.message
+    } else {
+      if (path) structuredError[path] = error.message
+    }
 
-      return structuredError
-    },
-    {}
-  )
+    return structuredError
+  }, {})
 }
 
 const isValidationError = (error: any): error is ValidationError => {
@@ -295,7 +286,7 @@ const isValidationError = (error: any): error is ValidationError => {
 function useForm<Data extends Record<string, unknown>>(
   data: Data,
   submitHandler: SubmitHandler<Data>,
-  validationSchema?: YupValidationObject<Data>
+  validationSchema?: YupValidationObject<Data>,
 ) {
   const [values, setValues] = useState<Data>(data)
   const [touched, setTouched] = useState<TouchedInputs<Data>>({})

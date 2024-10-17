@@ -1,19 +1,10 @@
 import React from 'react'
-import {
-  ArchiveBoxXMarkIcon,
-  ArrowRightIcon,
-  TrashIcon,
-  XMarkIcon,
-} from '@heroicons/react/20/solid'
+import { ArchiveBoxXMarkIcon, ArrowRightIcon, TrashIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { motion } from 'framer-motion'
 import { Backdrop } from '@/components/ui/Backdrop'
 import { useCartContext } from '@/contexts/cart.context'
 import { QuantityStepper } from '../Product/QuantityStepper'
-import {
-  deleteCartProductAction,
-  getCartAction,
-  updateCartQuantityAction,
-} from '@/network/cart.api'
+import { deleteCartProductAction, getCartAction, updateCartQuantityAction } from '@/network/cart.api'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 
@@ -28,7 +19,9 @@ export const UserCart = ({ close }: { close: () => void }) => {
         success: 'Cart product deleted!',
       })
       .then(() => {
-        getCartAction().then(cart => ({ ...cart, isReady: true })).then(setCart)
+        getCartAction()
+          .then((cart) => ({ ...cart, isReady: true }))
+          .then(setCart)
       })
   }
 
@@ -43,7 +36,9 @@ export const UserCart = ({ close }: { close: () => void }) => {
           success: 'Quantity updated',
         })
         .then(() => {
-          getCartAction().then(cart => ({ ...cart, isReady: true })).then(setCart)
+          getCartAction()
+            .then((cart) => ({ ...cart, isReady: true }))
+            .then(setCart)
         })
     }
   }
@@ -68,11 +63,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
       >
         <div className="header flex">
           <button className="ml-auto">
-            <XMarkIcon
-              className="h-6 w-6 text-gray-400"
-              aria-hidden="true"
-              onClick={close}
-            />
+            <XMarkIcon className="h-6 w-6 text-gray-400" aria-hidden="true" onClick={close} />
           </button>
         </div>
 
@@ -91,23 +82,13 @@ export const UserCart = ({ close }: { close: () => void }) => {
                     <td className="p-4 pl-8 text-slate-500">
                       <QuantityStepper
                         initial={item.quantity}
-                        onChange={(quantity: number) =>
-                          handleUpdateQuantity(item.id, quantity)
-                        }
+                        onChange={(quantity: number) => handleUpdateQuantity(item.id, quantity)}
                       />
                     </td>
+                    <td className="p-4 pl-8 text-slate-500">{item.displayedPrice}</td>
                     <td className="p-4 pl-8 text-slate-500">
-                      {item.displayedPrice}
-                    </td>
-                    <td className="p-4 pl-8 text-slate-500">
-                      <button
-                        className="text-red-400"
-                        onClick={() => handleDeleteCartProduct(item.id)}
-                      >
-                        <TrashIcon
-                          className="h-4 w-4"
-                          aria-hidden="true"
-                        ></TrashIcon>
+                      <button className="text-red-400" onClick={() => handleDeleteCartProduct(item.id)}>
+                        <TrashIcon className="h-4 w-4" aria-hidden="true"></TrashIcon>
                       </button>
                     </td>
                   </tr>
@@ -118,21 +99,15 @@ export const UserCart = ({ close }: { close: () => void }) => {
               <tbody>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Products price</td>
-                  <td className="p-4 pl-8 text-slate-500">
-                    {cart.displayedSubTotal}
-                  </td>
+                  <td className="p-4 pl-8 text-slate-500">{cart.displayedSubTotal}</td>
                 </tr>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Shipping</td>
-                  <td className="p-4 pl-8 text-slate-500">
-                    {cart.displayedShipping}
-                  </td>
+                  <td className="p-4 pl-8 text-slate-500">{cart.displayedShipping}</td>
                 </tr>
                 <tr>
                   <td className="p-4 pl-8 text-slate-500">Total</td>
-                  <td className="p-4 pl-8 text-slate-500">
-                    {cart.displayedTotal}
-                  </td>
+                  <td className="p-4 pl-8 text-slate-500">{cart.displayedTotal}</td>
                 </tr>
               </tbody>
             </table>
@@ -141,10 +116,7 @@ export const UserCart = ({ close }: { close: () => void }) => {
               className="flex w-fit ml-8 mt-4 px-8 rounded py-4 bg-indigo-600 text-white hover:bg-indigo-500"
             >
               Checkout
-              <ArrowRightIcon
-                className="ml-2 w-6 h-6"
-                aria-hidden="true"
-              ></ArrowRightIcon>{' '}
+              <ArrowRightIcon className="ml-2 w-6 h-6" aria-hidden="true"></ArrowRightIcon>{' '}
             </Link>
           </>
         )}

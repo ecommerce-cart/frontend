@@ -28,12 +28,10 @@ export const Gallery = ({ images }: GalleryProps) => {
   const handleSlidingButtons = () => {
     if (imageContainerRef.current) {
       const imageContainer = imageContainerRef.current
-      const maxScrollLeft =
-        imageContainer.scrollWidth - imageContainer.clientWidth
+      const maxScrollLeft = imageContainer.scrollWidth - imageContainer.clientWidth
       if (imageContainer.scrollLeft <= 10) setCanSlideLeft(false)
       else if (!canSlideLeft) setCanSlideLeft(true)
-      if (imageContainer.scrollLeft >= maxScrollLeft - 10)
-        setCanSlideRight(false)
+      if (imageContainer.scrollLeft >= maxScrollLeft - 10) setCanSlideRight(false)
       else if (!canSlideRight) setCanSlideRight(true)
     }
   }
@@ -62,10 +60,7 @@ export const Gallery = ({ images }: GalleryProps) => {
           onScroll={handleScroll}
         >
           {images.map((image) => (
-            <div
-              key={image}
-              className="w-[325px] flex-none rounded-lg shadow border-2"
-            >
+            <div key={image} className="w-[325px] flex-none rounded-lg shadow border-2">
               <Image
                 width={300}
                 height={100}

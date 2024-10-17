@@ -5,16 +5,10 @@ export type RadioButtonProps<T> = {
   selections: Array<T>
   additionalClasses?: string
   name: string
-renderElement: (element: T) => ReactElement
+  renderElement: (element: T) => ReactElement
 }
 
-const RadioButton = <T,>({
-  selected,
-  selections,
-  additionalClasses,
-  name,
-  renderElement,
-}: RadioButtonProps<T>) => {
+const RadioButton = <T,>({ selected, selections, additionalClasses, name, renderElement }: RadioButtonProps<T>) => {
   return (
     <ul className={`${additionalClasses ?? ''} flex`}>
       {selections.map((selection, index) => (

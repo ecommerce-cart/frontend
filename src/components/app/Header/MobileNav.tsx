@@ -24,10 +24,8 @@ export const MobileNav = ({
             as="a"
             href={item.href}
             className={classNames(
-              item.current
-                ? 'bg-gray-900 text-white'
-                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-              'block rounded-md px-3 py-2 text-base font-medium'
+              item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+              'block rounded-md px-3 py-2 text-base font-medium',
             )}
             aria-current={item.current ? 'page' : undefined}
           >
@@ -40,22 +38,12 @@ export const MobileNav = ({
           <div className="flex items-center px-5">
             {user.image ? (
               <div className="flex-shrink-0">
-                <Image
-                  width={24}
-                  height={24}
-                  className="rounded-full h-auto w-8"
-                  src={user.image}
-                  alt=""
-                />
+                <Image width={24} height={24} className="rounded-full h-auto w-8" src={user.image} alt="" />
               </div>
             ) : null}
             <div className="ml-3">
-              <div className="text-base font-medium leading-none text-white">
-                {user.name}
-              </div>
-              <div className="text-sm font-medium leading-none text-gray-400">
-                {user.email}
-              </div>
+              <div className="text-base font-medium leading-none text-white">{user.name}</div>
+              <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
             </div>
             <button
               type="button"

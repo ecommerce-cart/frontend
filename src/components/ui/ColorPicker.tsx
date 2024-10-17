@@ -36,7 +36,7 @@ export const ColorPicker = <T,>({
                 'ring-gray-400',
                 checked ? 'ring ring-offset-1' : '',
                 disabled ? 'cursor-not-allowed' : '',
-                'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none'
+                'relative -m-0.5 flex cursor-pointer items-center justify-center rounded-full p-0.5 focus:outline-none',
               )
             }
           >
@@ -54,7 +54,6 @@ export const ColorPicker = <T,>({
                   {disabled ? <XMarkIcon className="h-5 w-5" /> : null}
                 </span>
               </Fragment>
-
             )}
           </RadioGroup.Option>
         ))}

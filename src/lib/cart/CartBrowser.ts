@@ -1,6 +1,6 @@
 import { Cart } from '@/types/cart.types'
 import { Product, Variation } from '@/types/product.types'
-import { getStorageItem } from '../json.lib'
+import { getAndParseStorageItem } from '../json.lib'
 import { money } from '../money/Money'
 
 export const emptyCart = (): Cart => ({
@@ -24,16 +24,12 @@ export class CartBrowser {
     this.cart = cart
   }
 
-  public addItem(
-    product: Product,
-    quantity: number,
-    variations: Array<Variation>
-  ) {
+  public addItem(product: Product, quantity: number, variations: Array<Variation>) {
     if (quantity <= 0) {
-      throw new Error(`Quantity Can not be ${quantity}`);
+      throw new Error(`Quantity Can not be ${quantity}`)
     }
 
-    const cart = getStorageItem<Cart>('userCart')
+    const cart = getAndParseStorageItem<Cart>('userCart')
 
     if (cart) {
       this.init(cart)
@@ -45,7 +41,7 @@ export class CartBrowser {
       price,
       quantity,
       displayedPrice: money(price).egp(),
-      title: `${product.name} ${variations.map(v => ` / ${v.name}`).join(' ')}`,
+      title: `${product.name} ${variations.map((v) => ` / ${v.name}`).join(' ')}`,
     })
     this.reCalculate()
     this.sync()
@@ -75,13 +71,11 @@ export class CartBrowser {
       return acc + curr.price
     }, 0)
     this.cart.subTotal = this.cart.total = subTotal
-    this.cart.displayedSubTotal = this.cart.displayedTotal = money(
-      this.cart.subTotal
-    ).egp()
+    this.cart.displayedSubTotal = this.cart.displayedTotal = money(this.cart.subTotal).egp()
   }
 
   getCart() {
-    const cart = getStorageItem<Cart>('userCart')
+    const cart = getAndParseStorageItem<Cart>('userCart')
 
     if (cart) {
       this.init(cart)

@@ -8,10 +8,7 @@ export const LabeledInput: FC<{
 }> = ({ htmlFor, label, error, children }) => {
   return (
     <>
-      <label
-        htmlFor={htmlFor}
-        className="block text-sm font-medium leading-6 text-gray-900"
-      >
+      <label htmlFor={htmlFor} className="block text-sm font-medium leading-6 text-gray-900">
         {label}
       </label>
       <div className="mt-2">{children}</div>

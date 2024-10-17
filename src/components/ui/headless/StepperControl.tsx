@@ -1,10 +1,5 @@
 /* eslint-disable react/display-name */
-import React, {
-  ButtonHTMLAttributes,
-  InputHTMLAttributes,
-  ReactElement,
-  ReactNode,
-} from 'react'
+import React, { ButtonHTMLAttributes, InputHTMLAttributes, ReactElement, ReactNode } from 'react'
 import { Stepper } from './Stepper'
 
 type StepperControlChildrenAcceptProps = {
@@ -22,18 +17,10 @@ type StepperControlProps = {
   initial?: number
 }
 
-export const StepperControl = ({
-  min,
-  max,
-  onChange,
-  children,
-  initial = 1,
-}: StepperControlProps) => {
+export const StepperControl = ({ min, max, onChange, children, initial = 1 }: StepperControlProps) => {
   return (
     <Stepper initial={initial} min={min} max={max} onChange={onChange}>
-      {({ counter, decrement, increment, setValue }) =>
-        children({ counter, decrement, increment, setValue })
-      }
+      {({ counter, decrement, increment, setValue }) => children({ counter, decrement, increment, setValue })}
     </Stepper>
   )
 }

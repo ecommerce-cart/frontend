@@ -21,10 +21,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
 
-  const handleSubmitEvent: SubmitHandler<LoginFormData> = async (
-    values,
-    setErrors
-  ) => {
+  const handleSubmitEvent: SubmitHandler<LoginFormData> = async (values, setErrors) => {
     try {
       await loginAction(values)
       authenticatedVar(true)
@@ -41,15 +38,11 @@ const Login = () => {
     }
   }
 
-  const {
-    values,
-    errors,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-    handleFocus,
-    isSubmitting,
-  } = useForm(initialData, handleSubmitEvent, formSchema)
+  const { values, errors, handleBlur, handleChange, handleSubmit, handleFocus, isSubmitting } = useForm(
+    initialData,
+    handleSubmitEvent,
+    formSchema,
+  )
 
   useEffect(() => {
     setErrorMessage('')
@@ -58,26 +51,17 @@ const Login = () => {
   return (
     <AppLayout>
       <main className="w-10/12 md:w-8/12 xl:w-6/12 m-auto">
-        <form
-          onSubmit={handleSubmit}
-          className="border px-10 py-6 m-6 rounded bg-white"
-        >
+        <form onSubmit={handleSubmit} className="border px-10 py-6 m-6 rounded bg-white">
           {errorMessage ? <Error message={errorMessage} /> : null}
           <div className="space-y-6">
             <div className="border-b border-gray-900/10 pb-2">
-              <h2 className="text-base font-semibold leading-7 text-gray-900">
-                Login
-              </h2>
+              <h2 className="text-base font-semibold leading-7 text-gray-900">Login</h2>
             </div>
 
             <div className="border-b border-gray-900/10 pb-12">
               <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-full">
-                  <LabeledInput
-                    label="Email"
-                    error={errors.email}
-                    htmlFor="email"
-                  >
+                  <LabeledInput label="Email" error={errors.email} htmlFor="email">
                     <FormElement
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -92,11 +76,7 @@ const Login = () => {
                 </div>
 
                 <div className="sm:col-span-full">
-                  <LabeledInput
-                    label="Password"
-                    error={errors.password}
-                    htmlFor="password"
-                  >
+                  <LabeledInput label="Password" error={errors.password} htmlFor="password">
                     <FormElement
                       onChange={handleChange}
                       onBlur={handleBlur}

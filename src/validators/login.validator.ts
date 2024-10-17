@@ -7,6 +7,4 @@ const loginFormSchema = {
 
 // export type LoginFormInputType = InferType<typeof loginFormSchema>;
 
-
-
 export default loginFormSchema

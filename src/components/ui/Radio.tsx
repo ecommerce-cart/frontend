@@ -37,7 +37,7 @@ export const Radio = <T,>({
                   ? 'cursor-not-allowed bg-gray-50 text-gray-200'
                   : 'cursor-pointer bg-white text-gray-900 shadow-sm',
                 active ? 'ring-2 ring-indigo-500' : '',
-                'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6'
+                'group relative flex items-center justify-center rounded-md border py-3 px-4 text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6',
               )
             }
           >
@@ -49,7 +49,7 @@ export const Radio = <T,>({
                     className={classNames(
                       active ? 'border' : 'border-2',
                       checked ? 'border-indigo-500' : 'border-transparent',
-                      'pointer-events-none absolute -inset-px rounded-md'
+                      'pointer-events-none absolute -inset-px rounded-md',
                     )}
                     aria-hidden="true"
                   />
@@ -64,13 +64,7 @@ export const Radio = <T,>({
                       preserveAspectRatio="none"
                       stroke="currentColor"
                     >
-                      <line
-                        x1={0}
-                        y1={100}
-                        x2={100}
-                        y2={0}
-                        vectorEffect="non-scaling-stroke"
-                      />
+                      <line x1={0} y1={100} x2={100} y2={0} vectorEffect="non-scaling-stroke" />
                     </svg>
                   </span>
                 )}

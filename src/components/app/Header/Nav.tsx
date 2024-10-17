@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
 import { Disclosure } from '@headlessui/react'
-import {
-  Bars3Icon,
-  ShoppingCartIcon,
-  XMarkIcon,
-} from '@heroicons/react/20/solid'
+import { Bars3Icon, ShoppingCartIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import Image from 'next/image'
 import { AnimatePresence } from 'framer-motion'
 import { useRouter } from 'next/router'
@@ -30,7 +26,6 @@ const userNavigation = [
   { name: 'Sign out', href: '#' },
 ]
 
-
 export const Nav = () => {
   const [isUserCartOpen, setIsUserCartOpen] = useState(false)
   const { user } = useUser()
@@ -48,9 +43,7 @@ export const Nav = () => {
   return (
     <>
       <AnimatePresence initial={false} mode="wait">
-        {isUserCartOpen ? (
-          <UserCart close={() => setIsUserCartOpen(false)} />
-        ) : null}
+        {isUserCartOpen ? <UserCart close={() => setIsUserCartOpen(false)} /> : null}
       </AnimatePresence>
       <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (
@@ -69,7 +62,9 @@ export const Nav = () => {
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
-                      {navigation.map((item) => <NavItem key={item.name} item={item} user={user} currentPath={router.pathname}></NavItem>)}
+                      {navigation.map((item) => (
+                        <NavItem key={item.name} item={item} user={user} currentPath={router.pathname}></NavItem>
+                      ))}
                     </div>
                   </div>
                 </div>
@@ -84,26 +79,15 @@ export const Nav = () => {
                       <span className="sr-only">User Cart</span>
                       <div className="relative">
                         <div className="absolute flex justify-center items-center bg-green-600 w-4 h-4 p-2.5 -top-4 -left-1 rounded-xl">
-                          <span className="text-white text-xs font-bold">
-                            {cart.items.length}
-                          </span>
+                          <span className="text-white text-xs font-bold">{cart.items.length}</span>
                         </div>
-                        <ShoppingCartIcon
-                          className="h-6 w-6"
-                          aria-hidden="true"
-                        />
+                        <ShoppingCartIcon className="h-6 w-6" aria-hidden="true" />
                       </div>
                     </button>
 
-                    <div className='h-3 border border-gray-400 ml-2'></div>
+                    <div className="h-3 border border-gray-400 ml-2"></div>
 
-
-                    {user ? (
-                      <ProfileDropdown
-                        user={user}
-                        handleLogout={handleLogout}
-                      />
-                    ) : null}
+                    {user ? <ProfileDropdown user={user} handleLogout={handleLogout} /> : null}
 
                     {!user ? <AuthNavItem currentPath={router.pathname} /> : null}
                   </div>
@@ -123,11 +107,7 @@ export const Nav = () => {
               </div>
             </div>
 
-            <MobileNav
-              navigation={navigation}
-              userNavigation={userNavigation}
-              user={user}
-            />
+            <MobileNav navigation={navigation} userNavigation={userNavigation} user={user} />
           </>
         )}
       </Disclosure>

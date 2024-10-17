@@ -11,43 +11,45 @@ import { ProductInfo } from '@/components/app/Product/ProductInfo'
 export const ProductBreadcrumb = () => {
   return (
     <div className="flex items-center mb-6 text-base text-gray-500">
-      <a href="#" className="hover:underline text-gray-700">Men</a>
+      <a href="#" className="hover:underline text-gray-700">
+        Men
+      </a>
       <span className="mx-2">/</span>
-      <a href="#" className="hover:underline text-gray-700">Clothing</a>
+      <a href="#" className="hover:underline text-gray-700">
+        Clothing
+      </a>
       <span className="mx-2">/</span>
-      <span className='text-gray-500'>Tipped Polo</span>
+      <span className="text-gray-500">Tipped Polo</span>
     </div>
   )
 }
-
 
 export default function ProductPage({ product }: { product: Product }) {
   return (
     <AppLayout>
       <>
         {product ? (
-          <div className='bg-white border border-gray-200 rounded px-8 py-10'>
+          <div className="bg-white border border-gray-200 rounded px-8 py-10">
             <ProductBreadcrumb />
             <div className="flex gap-8">
               <ProductImageGallery images={product.images} />
               <ProductInfo product={product} />
             </div>
           </div>
+        ) : (
           // FIXME: add page not found
-        ) : <div>Page not found</div>}
+          <div>Page not found</div>
+        )}
       </>
-
     </AppLayout>
   )
 }
 
-export async function getServerSideProps({
-  params,
-}: GetServerSidePropsContext<{ id: string }>) {
+export async function getServerSideProps({ params }: GetServerSidePropsContext<{ id: string }>) {
   const result: { props: { product: Product | null } } = {
     props: {
       product: null,
-    }
+    },
   }
 
   if (!params?.id) {
@@ -64,6 +66,3 @@ export async function getServerSideProps({
 
   return result
 }
-
-
-

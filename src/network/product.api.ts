@@ -71,9 +71,7 @@ export const useProducts = () => {
   }
 }
 
-export const getProduct = async (
-  id: string | number
-): Promise<Product | null> => {
+export const getProduct = async (id: string | number): Promise<Product | null> => {
   const { data } = await apolloClient.query({
     query: PRODUCT_QUERY,
     variables: {

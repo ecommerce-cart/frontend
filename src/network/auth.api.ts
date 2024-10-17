@@ -67,7 +67,7 @@ export const register = async (inputs: RegisterFormData) => {
       JSON.stringify({
         email: data.registerCustomer.email,
         name: data.registerCustomer.name,
-      })
+      }),
     )
   }
 }
@@ -87,7 +87,7 @@ export const loginAction = async (inputs: LoginFormData) => {
       JSON.stringify({
         email: data.loginCustomer.email,
         name: data.loginCustomer.name,
-      })
+      }),
     )
   }
 }

@@ -24,31 +24,24 @@ const initData: ShippingAddressInput = {
   state: '',
   zipCode: '',
 }
-export const CreateShippingAddress = ({
-  onCreate,
-}: {
-  onCreate: () => void
-}) => {
+export const CreateShippingAddress = ({ onCreate }: { onCreate: () => void }) => {
   const { cities } = useCities()
 
   const submitHandler = async (values: ShippingAddressInput) => {
     const city = cities.find((c) => c.id == Number(values.city)) as City
     const country = { id: 1, name: 'Egypt' }
     createAddressAction({
-      ...values, 
-      city, 
-      country
+      ...values,
+      city,
+      country,
     }).then(onCreate)
   }
 
-  const {
-    handleChange,
-    handleBlur,
-    handleFocus,
-    handleSubmit,
-    errors,
-    values,
-  } = useForm(initData, submitHandler, formSchema)
+  const { handleChange, handleBlur, handleFocus, handleSubmit, errors, values } = useForm(
+    initData,
+    submitHandler,
+    formSchema,
+  )
 
   return (
     <form onSubmit={handleSubmit}>
@@ -57,11 +50,7 @@ export const CreateShippingAddress = ({
           <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-6">
             {/* ===============================Country============================== */}
             <div className="col-span-full">
-              <LabeledInput
-                htmlFor="country"
-                label="Country"
-                error={errors.country}
-              >
+              <LabeledInput htmlFor="country" label="Country" error={errors.country}>
                 <FormElement
                   as="select"
                   id="country"
@@ -81,11 +70,7 @@ export const CreateShippingAddress = ({
 
             {/* =============================== Street1 ============================== */}
             <div className="col-span-full">
-              <LabeledInput
-                htmlFor="street1"
-                label="Street1"
-                error={errors.street1}
-              >
+              <LabeledInput htmlFor="street1" label="Street1" error={errors.street1}>
                 <FormElement
                   as="textarea"
                   id="street1"
@@ -97,15 +82,11 @@ export const CreateShippingAddress = ({
                   error={errors.street1}
                 />
               </LabeledInput>
-            </div>  
-            
+            </div>
+
             {/* =============================== Street2 ============================== */}
             <div className="col-span-full">
-              <LabeledInput
-                htmlFor="street2"
-                label="Street2"
-                error={errors.street2}
-              >
+              <LabeledInput htmlFor="street2" label="Street2" error={errors.street2}>
                 <FormElement
                   as="textarea"
                   id="street2"
@@ -146,11 +127,7 @@ export const CreateShippingAddress = ({
 
             {/* ===============================State / Province============================== */}
             <div className="col-span-full">
-              <LabeledInput
-                label="State / Province"
-                error={errors.state}
-                htmlFor="state"
-              >
+              <LabeledInput label="State / Province" error={errors.state} htmlFor="state">
                 <FormElement
                   id="state"
                   name="state"
@@ -165,11 +142,7 @@ export const CreateShippingAddress = ({
 
             {/* ===============================ZIP / Postal code============================== */}
             <div className="col-span-full">
-              <LabeledInput
-                label="ZIP/ Postal code"
-                error={errors.zipCode}
-                htmlFor="zipCode"
-              >
+              <LabeledInput label="ZIP/ Postal code" error={errors.zipCode} htmlFor="zipCode">
                 <FormElement
                   id="zipCode"
                   name="zipCode"

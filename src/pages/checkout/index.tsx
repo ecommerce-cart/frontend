@@ -15,7 +15,6 @@ import useForm from '@/hooks/use-form.hook'
 import { CartGuard } from '@/hoc/CartGuard'
 import { useUser } from '@/hooks/use-user'
 
-
 const orderCustomerSchema = {
   email: string().required().email(),
   name: string().required(),
@@ -27,29 +26,26 @@ const Checkout = () => {
 
   const { user } = useUser()
 
-  const { handleChange, handleBlur, handleFocus, values, setValues, errors } =
-    useForm(
-      {
-        email: user ? user.email : '',
-        name: user ? user.name : '',
-      },
-      async (v) => { },
-      orderCustomerSchema
-    )
+  const { handleChange, handleBlur, handleFocus, values, setValues, errors } = useForm(
+    {
+      email: user ? user.email : '',
+      name: user ? user.name : '',
+    },
+    async (v) => {},
+    orderCustomerSchema,
+  )
 
   useEffect(() => {
     setValues({
       email: user ? user.email : '',
       name: user ? user.name : '',
     })
-  }, [user])
+  }, [user, setValues])
 
   const onCreateNewAddress = () => reload()
 
   // TODO:
-  const createOrder = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const createOrder = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault()
   }
 
@@ -60,15 +56,9 @@ const Checkout = () => {
           <div className="w-full lg:w-2/3">
             <div className="px-10">
               <div className="border-gray-900/10 pb-12">
-                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">
-                  Customer Information
-                </h2>
+                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">Customer Information</h2>
 
-                <LabeledInput
-                  label="Email"
-                  htmlFor="email"
-                  error={errors.email}
-                >
+                <LabeledInput label="Email" htmlFor="email" error={errors.email}>
                   <FormElement
                     id="email"
                     name="email"
@@ -96,9 +86,7 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="border-gray-900/10 pb-12">
-                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">
-                  Address Information
-                </h2>
+                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">Address Information</h2>
 
                 <ShippingAddressesList
                   addresses={addresses}
@@ -111,22 +99,14 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="border-gray-900/10 pb-12">
-                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">
-                  Shipping method
-                </h2>
-                <p className="border-2 border-indigo-600 p-4 rounded-md shadow bg-indigo-200">
-                  Free
-                </p>
+                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">Shipping method</h2>
+                <p className="border-2 border-indigo-600 p-4 rounded-md shadow bg-indigo-200">Free</p>
               </div>
               <div className="border-gray-900/10 pb-12">
-                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">
-                  Payment method
-                </h2>
+                <h2 className="mb-6 text-base font-semibold leading-7 text-gray-900">Payment method</h2>
 
                 <RadioGroup value={1}>
-                  <RadioGroup.Label className="sr-only">
-                    Select payment method
-                  </RadioGroup.Label>
+                  <RadioGroup.Label className="sr-only">Select payment method</RadioGroup.Label>
                   <div className="space-y-2">
                     <RadioGroup.Option
                       value={1}
@@ -134,7 +114,7 @@ const Checkout = () => {
                         twMerge(
                           'ring-2 ring-gray-200 relative flex cursor-pointer rounded-lg px-5 py-4 shadow-md focus:outline-none',
                           active ? 'ring-indigo-600' : '',
-                          checked ? 'bg-indigo-600 text-white' : 'bg-white'
+                          checked ? 'bg-indigo-600 text-white' : 'bg-white',
                         )
                       }
                     >
@@ -145,15 +125,13 @@ const Checkout = () => {
                               <div className="text-sm">
                                 <RadioGroup.Label
                                   as="p"
-                                  className={`font-medium  ${checked ? 'text-white' : 'text-gray-900'
-                                    }`}
+                                  className={`font-medium  ${checked ? 'text-white' : 'text-gray-900'}`}
                                 >
                                   <span>Cash on delivery</span>
                                 </RadioGroup.Label>
                                 <RadioGroup.Description
                                   as="span"
-                                  className={`inline ${checked ? 'text-sky-100' : 'text-gray-500'
-                                    }`}
+                                  className={`inline ${checked ? 'text-sky-100' : 'text-gray-500'}`}
                                 ></RadioGroup.Description>
                               </div>
                             </div>
