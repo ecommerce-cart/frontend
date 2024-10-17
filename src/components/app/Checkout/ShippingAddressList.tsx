@@ -41,10 +41,10 @@ export const ShippingAddressesList = ({
                         }`}
                       >
                         <span>
-                          {address.city.country.name} / {address.city.name} /{' '}
+                          {address.country.name} / {address.city.name} /{' '}
                           {address.state}
                         </span>
-                        <span className="block">{address.street}</span>
+                        <span className="block">{address.street1}</span>
                       </RadioGroup.Label>
                       <RadioGroup.Description
                         as="span"

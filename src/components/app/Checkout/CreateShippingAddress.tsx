@@ -5,18 +5,21 @@ import useForm from '@/hooks/use-form.hook'
 import formSchema from '@/validators/address.validator'
 import { LabeledInput } from '@/components/app/UI/forms/LabeledInput'
 import { createAddressAction, useCities } from '@/network/address.api'
+import { City } from '@/types/address.types'
 
-export type CheckoutFormData = {
-  country?: string | null
-  address?: string
+export type ShippingAddressInput = {
+  country?: number
+  street1?: string
+  street2?: string
   city?: string
   state?: string
   zipCode?: string
 }
 
-const initData: CheckoutFormData = {
-  country: '1',
-  address: '',
+const initData: ShippingAddressInput = {
+  country: 1,
+  street1: '',
+  street2: '',
   city: '',
   state: '',
   zipCode: '',
@@ -28,8 +31,14 @@ export const CreateShippingAddress = ({
 }) => {
   const { cities } = useCities()
 
-  const submitHandler = async (values: CheckoutFormData) => {
-    createAddressAction(values).then(onCreate)
+  const submitHandler = async (values: ShippingAddressInput) => {
+    const city = cities.find((c) => c.id == Number(values.city)) as City
+    const country = { id: 1, name: 'Egypt' }
+    createAddressAction({
+      ...values, 
+      city, 
+      country
+    }).then(onCreate)
   }
 
   const {
@@ -70,22 +79,42 @@ export const CreateShippingAddress = ({
               </LabeledInput>
             </div>
 
-            {/* ===============================Street Address============================== */}
+            {/* =============================== Street1 ============================== */}
             <div className="col-span-full">
               <LabeledInput
-                htmlFor="address"
-                label="Address"
-                error={errors.address}
+                htmlFor="street1"
+                label="Street1"
+                error={errors.street1}
               >
                 <FormElement
                   as="textarea"
-                  id="address"
-                  name="address"
+                  id="street1"
+                  name="street1"
                   onChange={handleChange}
-                  value={values.address}
+                  value={values.street1}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
-                  error={errors.address}
+                  error={errors.street1}
+                />
+              </LabeledInput>
+            </div>  
+            
+            {/* =============================== Street2 ============================== */}
+            <div className="col-span-full">
+              <LabeledInput
+                htmlFor="street2"
+                label="Street2"
+                error={errors.street2}
+              >
+                <FormElement
+                  as="textarea"
+                  id="street2"
+                  name="street2"
+                  onChange={handleChange}
+                  value={values.street2}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
+                  error={errors.street2}
                 />
               </LabeledInput>
             </div>

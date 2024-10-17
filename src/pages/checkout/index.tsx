@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { twMerge } from 'tailwind-merge'
 import { string } from 'yup'
@@ -7,14 +7,13 @@ import { CheckCircleIcon } from '@heroicons/react/20/solid'
 import AppLayout from '@/layouts/App.layout'
 import { CartDetails } from '@/components/app/Checkout/CartDetails'
 import { ShippingAddressesList } from '@/components/app/Checkout/ShippingAddressList'
-import { Address } from '@/types/address.types'
 import { useAddresses } from '@/network/address.api'
 import { CreateShippingAddressModal } from '@/components/app/Checkout/CreateShippingAddressModal'
 import { LabeledInput } from '@/components/app/UI/forms/LabeledInput'
 import FormElement from '@/components/app/UI/forms/FormElement'
 import useForm from '@/hooks/use-form.hook'
-import { useUser } from '@/hooks/use-user'
 import { CartGuard } from '@/hoc/CartGuard'
+import { useUser } from '@/hooks/use-user'
 
 
 const orderCustomerSchema = {
@@ -23,8 +22,8 @@ const orderCustomerSchema = {
 }
 
 const Checkout = () => {
-  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null)
-  const { addresses, reload } = useAddresses()
+  console.log('rerender checkout')
+  const { addresses, reload, selectedAddress, setSelectedAddress } = useAddresses()
 
   const { user } = useUser()
 
@@ -43,15 +42,7 @@ const Checkout = () => {
       email: user ? user.email : '',
       name: user ? user.name : '',
     })
-  }, [user, setValues])
-
-  useEffect(() => {
-    if (addresses.length >= 1) {
-      setSelectedAddress(
-        addresses.find((address) => address.default) as Address
-      )
-    }
-  }, [addresses])
+  }, [user])
 
   const onCreateNewAddress = () => reload()
 
