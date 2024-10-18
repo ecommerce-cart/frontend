@@ -4,7 +4,7 @@ import { useReactiveVar } from '@apollo/client'
 
 import authenticatedVar from '@/apollo/vars/auth.vars'
 import { apolloClient } from '@/clients/apollo.client'
-import globalAuth from '@/globals/auth.global'
+import { getAndParseStorageItem } from '@/lib/json.lib'
 
 interface GuardProps {
   children: JSX.Element
@@ -17,9 +17,12 @@ const Guard: FC<GuardProps> = ({ children, excludedRoutes }) => {
   const authenticated = useReactiveVar(authenticatedVar)
 
   const logOut = useCallback(() => {
+    console.log('Guard logOut')
     apolloClient.clearStore().catch(console.error)
     localStorage?.removeItem('userData')
-    router.push('/auth/login')
+    if(router.pathname !== '/auth/login') {
+      router.push('/auth/login')
+    }
   }, [router])
 
   /**
@@ -27,9 +30,10 @@ const Guard: FC<GuardProps> = ({ children, excludedRoutes }) => {
    * and the logout functionality should be executed in the client side
    */
   useEffect(() => {
+    // console.log('Guard useEffect', router.pathname, authenticated, getAndParseStorageItem('userData'))
     if (
       !authenticated || // by default this is false until we change it's value in the next server side
-      (!excludedRoutes?.includes(router.pathname) && !globalAuth.accessToken) // this is to protect the routes in the client side
+      (!excludedRoutes?.includes(router.pathname) && !getAndParseStorageItem('userData')) // this is to protect the routes in the client side
     ) {
       logOut()
     }
